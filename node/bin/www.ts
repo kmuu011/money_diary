@@ -1,5 +1,7 @@
 require('module-alias/register');
 
+const SERVER_TYPE = process.env.NODE_ENV || '';
+
 // @ts-ignore
 const app = require('../app');
 // @ts-ignore
@@ -13,7 +15,10 @@ app.set('port', config.server.port);
 
     server.listen(app.get('port'));
 
-    app.io.attach(server);
+    if((/^production$|^development$/).test(SERVER_TYPE)){
+        app.io.attach(server);
+    }
+
 })().catch(err => {
     throw err;
 });
