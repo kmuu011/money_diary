@@ -18,7 +18,7 @@ const schedule = require('node-schedule');
 const SERVER_TYPE = process.env.NODE_ENV;
 
 const data_processor = async (data_list) => {
-    for(let d of data_list){
+    for(const d of data_list){
         const dup_check = await dao_sale_info.select_one(d.unq_key);
         const obj = {};
 
@@ -59,7 +59,7 @@ const data_processor = async (data_list) => {
 const data_arranger_for_pp = async (list, By) => {
     const item_list = [];
 
-    for(let l of list){
+    for(const l of list){
         const td = await l.findElements(By.tagName('td'));
         const unq_key = 'pp' + await td[0].getText();
 
@@ -132,7 +132,6 @@ const data_arranger_for_pp = async (list, By) => {
         let data_list = [];
 
         try {
-
             // 퀘이사존 크롤러
             await new Promise(async (resolve) => {
                 try {
@@ -154,8 +153,8 @@ const data_arranger_for_pp = async (list, By) => {
 
                         const category = (await e.findElement(By.className('category')).getText()).replace(/\s/g, '');
                         const price = (await e.findElement(By.className('text-orange')).getText()).replace(/\s/g, '');
+                        const type = 0;
                         let new_price = '';
-                        let type = 0;
 
                         for (let d of price) {
                             if ((/([0-9])|[.]/).test(d)) new_price += d;

@@ -7,7 +7,7 @@ const db = require(`libs/db`);
 
 const Message = require(`libs/message`);
 
-let apis = [
+const apis = [
     'member', 'account', 'auth', 'admin',
     'test'
 ];
@@ -22,7 +22,7 @@ router.use(async (req, res, next) => {
     next();
 });
 
-for(let api of apis){
+for(const api of apis){
     router.use('/' + api, require('./' + api + '/' + api));
 }
 
