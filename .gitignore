@@ -3,4 +3,4 @@ access.log
 error.log
 logs
 .idea
-Node/Config/index.js
+Node/config/index.js

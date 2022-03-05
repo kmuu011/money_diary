@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <script src="/socket.io-client/dist/socket.io.js"></script>
+    <script src='https://code.jquery.com/jquery-1.11.1.js'></script>
+</head>
+
+<style>
+    #chat_list{
+        width: 340px;
+        height: 500px;
+        border: solid;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #chat_log{
+        width: 330px;
+        word-break:break-all;
+    }
+
+    #chat_img{
+        width:300px;
+
+    }
+
+    #user_list{
+        width:200px !important;
+        height:400px !important;
+        border: solid;
+        position: absolute;
+        top: 1%;
+        right: 30%;
+    }
+
+    .file_link {
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+
+<div id="chat_list">
+
+</div>
+
+<textarea id="user_list">
+
+</textarea>
+
+<input type="text" id="comment" onkeypress="javascript:if(event.keyCode==13){sendMsg()}">
+<input type="button" value="msg submit" onclick="sendMsg()"><br>
+<input type="file" id="file">
+<input type="button" value="파일보내기" onclick="sendFile()">
+<br>
+그룹 채팅
+<!--닉네임 <input type="text" id="nickname">-->
+
+<br>
+<br>
+
+친구 번호<input type="number" id="buddy_idx" value=""><br><br>
+채팅 번호<input type="number" id="chat_idx" value=""><br><br>
+
+아이디 <input type="text" id="id" value="" onkeypress="javascript:if(event.keyCode==13){joinRoomNew()}"><br>
+비밀번호<input type="password" id="password" value="" onkeypress="javascript:if(event.keyCode==13){joinRoomNew()}"><br>
+
+<input type="button" id="login" value="로그인" onclick="joinRoomNew()">
+<!--<input type="button" value="leave" onclick="leaveRoom()">-->
+<input type="button" value="채팅 종료" onclick="closeRoom()">
+<input type="button" value="채팅방 나가기" onclick="quitRoom()">
+<input type="button" value="새로고침" onclick="refresh()">
+<br>
+
+
+<script>
+
+    let serverType = <%-JSON.stringify(locals.serverType)%>;
+
+    let test_url = 'http://127.0.0.1:8081/';
+    let product_url = 'https://www.moneydiary.co.kr/'
+
+    let url = serverType === 'production' ? product_url : test_url;
+    let logined = 0;
+
+    var socket = io.connect(url, {transports:['websocket']});
+
+    var token;
+    let self_member;
+
+
+    socket.on('receiveMsg', function (data) {
+        let chat_list = $('#chat_list');
+
+        console.log(data);
+
+        chat_list.append(`<div id="chat_log">${decodeURI(data.msg)}</div>`);
+    });
+
+
+    function joinRoomNew() {
+        socket.emit('t_join', {
+            "test":"TEST"
+        });
+    }
+
+    function sendMsg () {
+        let msg = $('#comment');
+
+        socket.emit('t_send', { msg : msg.val() });
+
+        msg.val('');
+    }
+
+
+    function closeRoom() {
+        let chat_idx = $('#chat_idx').val();
+        let dat = {
+            chat_idx, token
+        }
+
+        if(token === undefined) return;
+
+        socket.emit('ct_g_leave_room', dat);
+    }
+
+    function quitRoom() {
+        let chat_idx = $('#chat_idx').val();
+
+        if(chat_idx === undefined || chat_idx === ''){
+            alert('채팅 번호를 입력해주세요');
+            return;
+        }
+
+        let data = {
+            token, chat_idx
+        }
+
+        socket.emit('ct_g_quit_room', data);
+    }
+
+
+    function refresh(){
+        window.location.reload()
+    }
+
+    window.onbeforeunload = function() {
+        closeRoom();
+    }
+
+</script>
+
+</body>
+
+</html>

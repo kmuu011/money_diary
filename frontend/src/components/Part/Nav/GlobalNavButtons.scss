@@ -1,0 +1,24 @@
+.nav_button_bottom {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    border: none;
+    border-top: 2px solid var(--color-1);
+    color: var(--color-4);
+
+    font-size: 1.5em;
+    width: 100%;
+
+    &:hover {
+        color: #ffffff;
+        background-color: var(--color-1);
+        transition: color .5s ease, background-color .5s ease;
+        -webkit-transition: color .5s ease, background-color .5s ease;
+    }
+}
+
+.nav_footer_wrapper{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

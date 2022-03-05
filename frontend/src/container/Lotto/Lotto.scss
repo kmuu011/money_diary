@@ -1,0 +1,46 @@
+.lotto_title {
+    margin-top: 80px;
+    font-size: 2em;
+}
+
+.lotto_page {
+    margin-top: var(--default-top-margin);
+    background-color: var(--backgroun-color);
+
+    .lotto_body {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+
+        .lotto_number_wrapper {
+            width: 100%;
+            display: flex;
+
+            .lotto_number {
+                display: flex;
+                justify-content: center;
+                width: calc(100%/6);
+
+                .lotto_number_text {
+                    border-bottom: 1px solid #e2e2e2;
+                    width: 70%;
+                    font-size: 1.3em;
+                }
+            }
+        }
+    }
+
+    .lotto_create_button {
+        margin-top: 50px;
+        height: 50px;
+    }
+}
+
+
+
+
+
+
+
+
+

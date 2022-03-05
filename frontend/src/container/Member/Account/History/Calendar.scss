@@ -1,0 +1,135 @@
+.App_container_calendar {
+    text-align: center;
+    width: var(--main-width);
+}
+
+@media screen and (max-width: 540px) {
+    .App_container_calendar {
+        text-align: center;
+        width: var(--main-width-mobile);
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .circle_button_cal {
+        position: absolute;
+        left: auto;
+        right: 2%;
+        top: 1.5%;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .App_container_calendar .circle_button {
+        position: absolute;
+        right: 2%;
+        top: 1.5%;
+        left: auto;
+        display: flex;
+        max-width: 1.3em;
+        max-height: 1.3em;
+
+        border-radius: 100%;
+
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(50px);
+        -webkit-backdrop-filter: blur(50px);
+
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+        color: #e2e2e2;
+
+        font-size: 2em;
+    }
+}
+
+.calendar_header {
+    width: 100%;
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar_time_zone div {
+    float: left;
+    font-size: 1.5em;
+}
+
+.calendar_button_header {
+    margin-top: 20px;
+
+    position: relative;
+    display: flex;
+
+    justify-content: flex-end;
+    .add_button_wrapper {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        background-color: var(--color-2);
+        border-radius: 100px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        .add_button {
+            width: 50px
+        }
+    }
+
+    .add_button_wrapper:hover {
+        background-color: var(--color-3);
+        transition: color .5s ease, background-color .5s ease;
+        -webkit-transition: color .5s ease, background-color .5s ease;
+    }
+}
+
+.calendar_body {
+    margin-top: 1em;
+    //box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    //background-color: rgba(255, 255, 255, 0.1);
+    //backdrop-filter: blur(50px);
+    //-webkit-backdrop-filter: blur(50px);
+
+    //padding: 1em;
+}
+
+
+.calendar_history_items {
+    height: 20em;
+}
+
+.next_month, .previous_month {
+    cursor: pointer;
+}
+
+.calendar_history_footer {
+    margin-top: 1em;
+    margin-bottom: 3em;
+}
+
+.calendar_history_footer > div {
+    width: 50%;
+    float: left;
+}
+
+.month_outcome_wrapper {
+    div {
+        font-size: 1em;
+        font-weight: bold;
+        color: var(--color-red);
+    }
+}
+
+.month_income_wrapper {
+    div {
+        color: var(--color-blue);
+        font-size: 1em;
+        font-weight: bold;
+    }
+}

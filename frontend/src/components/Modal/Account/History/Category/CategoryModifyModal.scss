@@ -1,0 +1,16 @@
+
+.category_modal_body {
+    .modal_input_wrapper {
+        .modal_input_div {
+            input {
+                margin-top: var(--default-top-margin);
+                width: 300px;
+                height: 50px;
+            }
+        }
+    }
+
+    .history_modal_footer {
+        margin-top: var(--default-top-margin);
+    }
+}

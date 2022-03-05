@@ -1,0 +1,51 @@
+{
+  "name": "money_diary",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "production": "NODE_ENV=production node ./bin/www.ts",
+    "start": "NODE_ENV=production nodemon -e js,ts,ejs ./bin/www.ts",
+    "dev": "NODE_ENV=development nodemon -e js,ts,ejs ./bin/www.ts",
+    "scheduler": "NODE_ENV=scheduler nodemon -e js,ts,ejs ./bin/www.ts",
+    "test": "NODE_ENV=test node test.ts"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "crawler": "^1.3.0",
+    "create-react-app": "^3.4.0",
+    "cross-env": "^7.0.0",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-async-errors": "^3.1.1",
+    "express-session": "^1.17.0",
+    "fs": "0.0.1-security",
+    "geckodriver": "^3.0.1",
+    "helmet": "^4.2.0",
+    "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql": "^2.17.1",
+    "node-schedule": "^2.1.0",
+    "nodemailer": "^6.4.10",
+    "nodemon": "^2.0.2",
+    "os": "^0.1.2",
+    "request": "^2.88.2",
+    "selenium-webdriver": "^4.1.1",
+    "socket.io": "^4.1.2",
+    "socket.io-client": "^4.1.2",
+    "socket.io-redis": "^6.1.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4",
+    "winston": "^3.5.1",
+    "winston-daily-rotate-file": "^4.6.0"
+  },
+  "_moduleAliases": {
+    "libs": "libs",
+    "config": "config",
+    "service": "src/service",
+    "dao": "src/dao"
+  }
+}

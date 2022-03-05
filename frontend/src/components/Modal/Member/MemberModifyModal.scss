@@ -1,0 +1,31 @@
+.modify_data_body {
+    background-color: var(--backgroun-color);
+    padding: 10px 35px 35px 35px;
+    width: var(--main-width-mobile);
+    border-radius: 4px;
+
+    .modify_data_wrapper {
+        color: var(--font-color);
+
+        .modify_data {
+            margin-top: var(--default-top-margin);
+
+            .data_description {
+                float: left;
+                font-weight: bold;
+            }
+        }
+
+        .modify_button_wrapper{
+            margin-top: 25px;
+
+            .action-button {
+                margin-top: 15px;
+                height: 40px;
+            }
+        }
+
+    }
+}
+
+

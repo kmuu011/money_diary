@@ -1,0 +1,22 @@
+.k_a_link_body {
+    width: var(--main-width-mobile);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    background-color: var(--backgroun-color);
+    border-radius: var(--border-radius);
+    padding: 35px;
+}
+
+.k_a_input_wrapper {
+    .k_a_input_password {
+        margin-top: var(--default-top-margin);
+    }
+}
+
+.k_a_button_wrapper {
+    margin-top: 25px;
+
+    .action-button {
+        height: 40px;
+        margin-top: 10px;
+    }
+}

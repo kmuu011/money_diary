@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/static/css/main.8b08482d.chunk.css",
+    "main.js": "/static/js/main.db035099.chunk.js",
+    "main.js.map": "/static/js/main.db035099.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.79acc360.js",
+    "runtime-main.js.map": "/static/js/runtime-main.79acc360.js.map",
+    "static/js/2.df69ba52.chunk.js": "/static/js/2.df69ba52.chunk.js",
+    "static/js/2.df69ba52.chunk.js.map": "/static/js/2.df69ba52.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.784565e4bf8591ad291630e4abda3a57.js": "/precache-manifest.784565e4bf8591ad291630e4abda3a57.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.8b08482d.chunk.css.map": "/static/css/main.8b08482d.chunk.css.map",
+    "static/js/2.df69ba52.chunk.js.LICENSE.txt": "/static/js/2.df69ba52.chunk.js.LICENSE.txt",
+    "static/media/index.scss": "/static/media/NanumSquareRoundEB.00f73012.ttf",
+    "static/media/add_white_36dp.svg": "/static/media/add_white_36dp.7c4e4965.svg",
+    "static/media/circle_add_button.svg": "/static/media/circle_add_button.1ea4ce4c.svg",
+    "static/media/close_white_36dp.svg": "/static/media/close_white_36dp.c22e4a1b.svg",
+    "static/media/delete_outline_white_36dp.svg": "/static/media/delete_outline_white_36dp.dd239516.svg",
+    "static/media/edit_white_36dp.svg": "/static/media/edit_white_36dp.d476f529.svg",
+    "static/media/nb_NoImage.svg": "/static/media/nb_NoImage.d91b5403.svg",
+    "static/media/photo.svg": "/static/media/photo.1875e41c.svg",
+    "static/media/search.svg": "/static/media/search.92521a12.svg",
+    "static/media/send.svg": "/static/media/send.03187058.svg",
+    "static/media/settings_white_36dp.svg": "/static/media/settings_white_36dp.458f9165.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.79acc360.js",
+    "static/js/2.df69ba52.chunk.js",
+    "static/css/main.8b08482d.chunk.css",
+    "static/js/main.db035099.chunk.js"
+  ]
+}

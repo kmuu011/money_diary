@@ -1,0 +1,130 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:1.15
+    links:
+      - node_0:node_0
+      - node_1:node_1
+
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/config:/etc/nginx
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    expose:
+      - "80"
+      - "443"
+    container_name: "nginx"
+    restart: always
+    networks:
+      static-network:
+        ipv4_address: 172.18.0.2
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    restart: always
+    networks:
+      static-network:
+        ipv4_address: 172.18.0.3
+
+  redis:
+    ports:
+      - "6379"
+    image: "redis"
+    expose:
+      - "6379"
+    container_name: "redis"
+    restart: always
+    networks:
+      static-network:
+        ipv4_address: 172.18.0.4
+
+  node_0:
+    build:
+      context: .
+      dockerfile: ./docker_file/node/node
+    ports:
+      - "55555"
+    working_dir: /home/node/app
+    volumes:
+      - ./Node:/home/node/app
+
+    environment:
+      TZ: "Asia/Seoul"
+
+    links:
+      - redis
+
+    command: "npm run production"
+    expose:
+      - "55555"
+    restart: always
+    container_name: "node_0"
+    depends_on:
+      - redis
+    networks:
+      static-network:
+        ipv4_address: 172.18.0.5
+
+  node_1:
+    build:
+      context: .
+      dockerfile: ./docker_file/node/node
+    ports:
+      - "55555"
+    working_dir: /home/node/app
+    volumes:
+      - ./Node:/home/node/app
+
+    environment:
+      TZ: "Asia/Seoul"
+
+    links:
+      - redis
+
+    command: "npm run production"
+    expose:
+      - "55555"
+    restart: always
+    container_name: "node_1"
+    depends_on:
+      - redis
+    networks:
+      static-network:
+        ipv4_address: 172.18.0.6
+
+  node_scheduler:
+    build:
+      context: .
+      dockerfile: ./docker_file/scheduler/scheduler
+    ports:
+      - "55556"
+    working_dir: /home/node/app
+    volumes:
+      - ./Node:/home/node/app
+
+    environment:
+      TZ: "Asia/Seoul"
+
+    command: "npm run scheduler"
+    expose:
+      - "55556"
+    restart: always
+    container_name: "node_scheduler"
+    networks:
+      static-network:
+        ipv4_address: 172.18.0.7
+
+networks:
+  static-network:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16

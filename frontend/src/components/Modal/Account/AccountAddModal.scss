@@ -1,0 +1,20 @@
+.account_add_modal_body {
+    width: 300px;
+
+    border-radius: var(--border-radius);
+
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    background-color: var(--backgroun-color);
+
+    padding: 35px;
+}
+
+.account_add_modal_button_wrapper {
+    margin-top: 25px;
+
+    .action-button {
+        margin-top: 10px;
+        height: 40px;
+    }
+}
+

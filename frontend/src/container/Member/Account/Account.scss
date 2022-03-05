@@ -1,0 +1,129 @@
+.account_title {
+    font-size: 40px;
+}
+
+.account_body {
+    margin-top: 80px;
+    width: var(--main-width);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+@media screen and (max-width: 540px) {
+    .account_body {
+        width: var(--main-width-mobile);
+    }
+}
+
+.account_wrapper {
+    margin-top: 25px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 600px;
+}
+
+@media screen and (max-width: 540px) {
+    .account_wrapper {
+        height: 500px;
+    }
+}
+
+.account_delete_cancel {
+    margin-top: var(--default-top-margin);
+    height: 50px
+}
+
+.account_add_button .action-button {
+    height: 50px;
+}
+
+.account_item {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    width: 90%;
+    height: 220px;
+    display: block;
+    font-size: 1.13em;
+    cursor: pointer;
+
+    border-radius: 20px;
+
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: var(--color-2);
+
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+}
+
+@media screen and (max-width: 540px) {
+    .account_item {
+        height: 160px;
+    }
+}
+
+.account_item:hover {
+    cursor:pointer;
+    transition: color .5s ease, background-color .5s ease;
+    -webkit-transition: color .5s ease, background .5s ease;
+    background-color: var(--color-3);
+}
+
+.account_content_wrapper {
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+    div {
+        color: #ffffff;
+    }
+}
+
+.account_amount {
+    position:relative;
+    left: 0.4em;
+
+}
+
+.account_delete_button {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.account_footer {
+    margin-top: var(--default-top-margin);
+
+    .add_button_wrapper {
+        cursor: pointer;
+        position: relative;
+        left: 50%;
+        transform: translate(-50%);
+
+        background-color: var(--color-2);
+        border-radius: 100px;
+        width: 80px;
+        height: 80px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+
+        img {
+            width: 80px;
+            position: relative;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+    }
+
+    .add_button_wrapper:hover {
+        background-color: var(--color-3);
+        transition: color .5s ease, background-color .5s ease;
+        -webkit-transition: color .5s ease, background-color .5s ease;
+    }
+
+}
+
+
+
+
+

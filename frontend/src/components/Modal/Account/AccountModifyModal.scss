@@ -1,0 +1,44 @@
+.account_modify_modal_body {
+    width: 350px;
+    border-radius: var(--border-radius);
+
+    background-color: var(--backgroun-color);
+
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+
+    padding: 35px 35px 35px 35px;
+
+    input {
+        border-radius: var(--border-radius);
+    }
+}
+
+.account_modify_modal_button_wrapper {
+    margin-top: var(--default-top-margin);
+    .action-button {
+        margin-top: 10px;
+        height: 35px;
+    }
+}
+
+.invisible_amount_cb {
+    margin-top: var(--default-top-margin);
+    display: flex;
+}
+
+.invisible_amount_label {
+    margin-left: 3px;
+    font-size: 1em;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+
+.account_modify_modal_button_wrapper .action-button {
+    margin-top: 10px;
+    height: 35px;
+}
+
+

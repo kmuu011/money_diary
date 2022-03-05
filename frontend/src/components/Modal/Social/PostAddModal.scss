@@ -1,0 +1,78 @@
+.s_h_add_modal_body {
+    width: 30em;
+
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-radius: 4px;
+}
+
+@media screen and (max-width: 540px) {
+    .s_h_add_modal_body {
+        width: 24em;
+    }
+}
+
+.modal_body_title {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    margin: 10px 0 10px 0;
+}
+
+.add_user_info_area {
+    width: 100%;
+    display: flex;
+    padding: 0.7em;
+
+    background-color: rgba(255, 255, 255, 0.7);
+    align-items: center;
+
+    height: 4.4em;
+}
+
+.add_content_input_area {
+    height: 10em;
+}
+
+.add_content_textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    padding: 0.7em;
+
+    &:focus {
+        border: none;
+    }
+}
+
+.add_content_other_area {
+    margin: 0 0.7em 0 0.7em;
+    display: flex;
+    padding: 0.5em 1em 0.5em 1em;
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+    justify-content: center;
+}
+
+.add_content_insert_area {
+    margin: 0 0.7em 0 0.7em;
+    display: flex;
+    padding: 0.5em 0 0.5em 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+    justify-content: center;
+}
+
+.add_content_insert_area {
+    .insert_button {
+        margin: 0.2em 0 0.2em 0;
+        width: 100%;
+
+        .action-button {
+            height: 35px;
+        }
+    }
+}
+

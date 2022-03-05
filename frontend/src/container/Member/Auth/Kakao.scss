@@ -1,0 +1,23 @@
+.loading_kakao_login{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: var(--main-width);
+
+    .sign_up_body {
+        width: 100%;
+    }
+
+    .member_link_button {
+        margin-bottom: var(--default-top-margin);
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .loading_kakao_login{
+        width: var(--main-width-mobile);
+    }
+}
+

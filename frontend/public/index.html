@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:title" content="$OG_TITLE">
+    <meta property="og:description" content="$OG_DESCRIPTION">
+    <meta property="og:image" content="$OG_IMAGE">
+
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <title>$SITE_TITLE</title>
+
+    <meta
+      name="description"
+      content="$SITE_DESCRIPTION"
+    />
+  </head>
+
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  <script>
+    Kakao.init('5341400ad9410329cde1b76a44ce8d6c');
+  </script>
+  <style>
+    /*html {*/
+    /*  font-family: "Source Sans Pro", Helvetica, sans-serif;*/
+    /*  font-weight: 300;*/
+    /*  color: #414f57;*/
+    /*  margin: 0;*/
+    /*  background-image: linear-gradient(60deg,rgba(193,4,255,.5) 5%,rgba(0,228,255,.35));*/
+    /*  letter-spacing:0.2em;*/
+    /*}*/
+
+    /*body {*/
+    /*  display: block;*/
+    /*  margin: 0 !important;*/
+
+    /*  -webkit-font-smoothing: antialiased;*/
+    /*  -moz-osx-font-smoothing: grayscale;*/
+
+    /*}*/
+    /*.App-page {*/
+    /*  min-width: 100%;*/
+    /*  min-height: 100vh;*/
+    /*}*/
+
+    /*@media screen and (max-width: 540px) {*/
+    /*  .App-body {*/
+    /*    max-width: 95% !important;*/
+    /*    min-width: 95% !important;*/
+    /*  }*/
+    /*}*/
+
+    /*.App-body {*/
+    /*  position: relative;*/
+    /*  top: 0;*/
+    /*  left: 50%;*/
+    /*  transform: translate(-50%, 5%);*/
+
+    /*  border-radius: 4px;*/
+
+    /*  background: white;*/
+    /*  max-width: 600px;*/
+    /*  min-width: 400px;*/
+    /*  width: 60vw;*/
+
+    /*  text-align: center;*/
+    /*  align-items: center;*/
+
+    /*  min-height: 90vh;*/
+
+    /*  overflow-x: hidden;*/
+    /*  overflow-y: auto;*/
+    /*}*/
+
+    /*.local-title{*/
+    /*  margin-top: 40%;*/
+    /*  font-size: 3vh;*/
+    /*}*/
+
+    /*.local-text{*/
+    /*  margin-top: 5%;*/
+    /*  font-size: 2vh;*/
+    /*}*/
+  </style>
+  <body>
+
+  <div id="root">
+<!--    <div class="App-page">-->
+<!--      <div class="App-body">-->
+<!--        <div class="body-title">-->
+<!--          <div class="local-title">민우의 가계부</div>-->
+<!--          <div class="local-text">로딩중....</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+
+  </body>
+  <script>
+    // if('serviceWorker' in navigator){
+    //   navigator.serviceWorker.register('/worker.js');
+    // }
+
+    // if ('serviceWorker' in navigator) {
+    //   window.addEventListener('load', function() {
+    //     navigator.serviceWorker.register('worker.js').then(function(registration) {
+    //       console.log('Worker registration successful', registration.scope);
+    //     }, function(err) {
+    //       console.log('Worker registration failed', err);
+    //     }).catch(function(err) {
+    //       console.log(err);
+    //     });
+    //   });
+    // } else {
+    //   console.log('Service Worker is not supported by browser.');
+    // }
+
+  </script>
+
+
+</html>

@@ -1,0 +1,88 @@
+.calendar_week {
+    display: grid;
+    grid-template-columns: repeat(7, calc(100%/7));
+}
+
+.calendar_day {
+    font-size: 1em;
+    width: 100%;
+    float: left;
+}
+
+.calendar_frame_body {
+    margin-top: 10px;
+    width: 100%;
+
+    .calendar_row {
+        height: 45px;
+        display: grid;
+        grid-template-columns: repeat(7, calc(100%/7));
+
+        #checked {
+            background-color: var(--color-1);
+        }
+
+        .calendar_date_td {
+            width: 100%;
+            float: left;
+            overflow-x: scroll;
+
+            &.today {
+                font-weight: bold;
+                background-color: var(--input-border-color);
+            }
+
+            &.disable {
+                div {
+                    color: var(--input-border-color) !important;
+                }
+            }
+
+            .calendar_data_wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: stretch;
+
+                position: relative;
+                height: 100%;
+
+                .calendar_data {
+                    height: 14px;
+                    letter-spacing: 1px;
+                }
+            }
+        }
+
+
+
+    }
+
+}
+
+
+
+
+.calendar_date_text {
+    font-size: 0.9em;
+}
+
+.calendar_history_items {
+    .account_history_item {
+        width: 100%;
+    }
+}
+
+.amount_income_text {
+    font-size: 0.6em;
+    color: var(--color-blue);
+}
+
+.amount_outcome_text {
+    font-size: 0.6em;
+    color: var(--color-red);
+}
+
+.calendar_history_footer > div {
+    font-size: 0.95em;
+}

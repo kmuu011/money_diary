@@ -1,0 +1,30 @@
+.category_modal_body {
+    border-radius: 4px;
+    width: 400px;
+
+    min-height: 200px;
+
+    background-color: var(--backgroun-color);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+
+    padding: var(--default-top-margin);
+}
+
+@media screen and (max-width: 540px) {
+    .category_modal_body {
+        width: 350px;
+    }
+}
+
+.category_modal_body .history_type {
+    margin: 0 0 0 0;
+}
+
+.history_modal_footer {
+    margin-bottom: 20px;
+}
+
+.history_modal_footer .action-button {
+    margin-top: 10px;
+    height: 35px;
+}

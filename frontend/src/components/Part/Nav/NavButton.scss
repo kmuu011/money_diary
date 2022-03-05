@@ -1,0 +1,48 @@
+.nav_menu_wrapper{
+    z-index: 4;
+    margin-top: 20px;
+    position: absolute;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 540px) {
+    .nav_menu_wrapper {
+        position: absolute;
+        cursor: pointer;
+    }
+}
+
+.nav_menu {
+    width: 32px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+}
+
+.nav_menu_wrapper .nav_menu {
+    margin-top:20px
+}
+
+
+.nav_menu_wrapper span {
+    background-color: var(--color-2);
+    position: absolute;
+    border-radius: 2px;
+    width: 100%;
+    height: 4px;
+}
+
+.nav_menu span:first-child{
+    top: 0;
+    left: 0;
+}
+
+.nav_menu span:nth-child(2) {
+    top: 11px;
+    left: 0;
+}
+
+.nav_menu span:nth-child(3) {
+    bottom: 3px;
+    left: 0;
+}

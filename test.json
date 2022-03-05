@@ -1,0 +1,32 @@
+{
+  "config": {
+    "target": "https://www.moneydiary.co.kr",
+    "phases": [
+      {
+        "duration": 10,
+        "arrivalRate": 600
+      }
+    ],
+    "defaults": {
+      "headers": {
+        "User-Agent": "Artillery"
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "name": "스트레스 테스트",
+      "flow": [
+        {
+          "post": {
+            "url": "/api/test/tps_test",
+            "json": {
+              "id": "[아이디]",
+              "password": "[비밀번호]"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

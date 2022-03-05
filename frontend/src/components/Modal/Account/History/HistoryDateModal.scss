@@ -1,0 +1,94 @@
+.date_modal_body {
+    width: 350px;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: var(--backgroun-color);
+    border-radius: var(--border-radius);
+
+    padding: 35px;
+    z-index: 3;
+
+    .date_range_type {
+        display: flex;
+        font-size: 1.4em;
+
+        div {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--backgroun-color);
+            border: 2px solid var(--color-1);
+            color: var(--color-1);
+
+            transition: color .5s ease, background-color .5s ease;
+            -webkit-transition: color .5s ease, background-color .5s ease;
+
+            cursor: pointer;
+            width: 50%;
+            height: 40px;
+
+            &:hover {
+                z-index: 1;
+                background-color: var(--color-1);
+                color: #ffffff;
+            }
+
+            &#checked {
+                z-index: 1;
+                background-color: var(--color-2);
+                border-color: var(--color-2);
+                color: #ffffff;
+            }
+        }
+
+        .range_month {
+            border-top-left-radius: var(--border-radius);
+            border-bottom-left-radius: var(--border-radius);
+            left: 1px;
+        }
+
+        .range_year {
+            right: 1px;
+            border-top-right-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+        }
+    }
+
+    .date_type_wrapper{
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+
+        .date_year, .date_month{
+            float: left;
+            width: 100%;
+
+            .select_date{
+                width: 100%;
+                height: 40px;
+                font-size: 20px;
+                border-color: #e2e2e2;
+                letter-spacing: .2em;
+                padding: 0 1em;
+                outline: none;
+            }
+        }
+    }
+
+    .date_button_wrapper{
+        margin-top: 25px;
+
+        .action-button{
+            margin-top: 10px;
+            height: 40px;
+        }
+    }
+}
+
+
+

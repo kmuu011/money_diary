@@ -1,0 +1,24 @@
+.history_modal_body {
+    width: 420px;
+
+    background-color: var(--backgroun-color);
+
+    padding: var(--default-top-margin);
+    border-radius: var(--border-radius);
+}
+
+@media screen and (max-width: 540px) {
+    .history_modal_body {
+        width: 350px;
+    }
+}
+
+.modal_input_div #content{
+    margin-top: 10px;
+}
+
+
+
+
+
+

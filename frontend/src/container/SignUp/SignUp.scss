@@ -1,0 +1,54 @@
+.sign_up_page {
+    text-align: center;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sign_up_title {
+    font-size: 3em;
+}
+
+.sign_up_body {
+    width: var(--main-width);
+    text-align: center;
+}
+
+@media screen and (max-width: 540px) {
+    .sign_up_body {
+        width: 320px;
+    }
+}
+
+.sign_up_body {
+    div{
+        margin-top: 20px
+    }
+
+    input {
+        margin-top: 4px;
+        border-radius: var(--border-radius);
+    }
+}
+
+.sign_up_footer a, .sign_up_footer .action-button{
+    height: 50px;
+}
+
+.sign_up_footer {
+    margin-top: var(--default-top-margin);
+}
+
+.sign_up_home {
+    * {
+        margin-top: var(--default-top-margin);
+        height: 50px;
+    }
+}
+
+.input_text {
+    font-weight: bold;
+    text-align: left;
+}
