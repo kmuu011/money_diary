@@ -1,6 +1,6 @@
 node_modules
 access.log
 error.log
-Config/index.js
 logs
 .idea
+Node/Config/index.js
