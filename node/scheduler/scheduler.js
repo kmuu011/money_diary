@@ -1,17 +1,17 @@
 'use strict';
 require('express-async-errors');
-require('../global');
+require('../global/index');
 const express = require('express');
 const app = express();
 app.set("etag", false);
 
-const utils = require(`utils`);
-const organizer = require(`organizer`);
+const utils = require(`libs/utils`);
+const organizer = require(`libs/organizer`);
 
 const dao_sale_info = require(`dao/sale/info`);
 
-const nodemailer = require(`nodemailer`);
-const logger = require(`logger`);
+const nodemailer = require(`libs/nodemailer`);
+const logger = require(`libs/logger`);
 
 const schedule = require('node-schedule');
 
