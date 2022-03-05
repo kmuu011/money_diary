@@ -97,7 +97,7 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use('/api', require('./src/Controller/index'));
+app.use('/api', require('./src/controller/index'));
 
 app.get(['/', '/*'], async (req, res) => {
     const html = await show_html(req, res);
