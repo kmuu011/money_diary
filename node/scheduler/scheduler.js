@@ -181,43 +181,9 @@ const data_arranger_for_pp = async (list, By) => {
                 }
             });
 
-        } catch (e) {
-            logger.error(e);
-            logger.error('크롤링 오류로 드라이버 종료');
-            driver.quit();
-        }finally {
-            logger.info(`크롤러 완료 ${((Date.now()-start_at)/1000).toFixed(1)}초 소요`);
-            driver.quit();
-        }
-    });
+            data_list = [];
+            await utils.sleep(5);
 
-    /**
-     * 뽐뿌 할인 정보 크롤링
-     * */
-    schedule.scheduleJob('0 * * * * *', async () => {
-        const start_at = Date.now();
-
-        const start_time_obj = await utils.get_date_parser(new Date());
-
-        if(start_time_obj.minute % 5 !== 0) return;
-
-        const { Builder, By } = require('selenium-webdriver');
-        const chrome = require('selenium-webdriver/chrome');
-        const options = new chrome.Options();
-        options.addArguments('--incognito');
-        options.addArguments('--headless');
-        options.addArguments('--no-sandbox');
-        options.addArguments("--single-process");
-        options.addArguments("--disable-dev-shm-usage");
-
-        const driver = await new Builder()
-            .forBrowser('chrome')
-            .setChromeOptions(options)
-            .build();
-
-        let data_list = [];
-
-        try {
             // 뽐뿌 크롤러
             await new Promise(async (resolve) => {
                 try {
