@@ -4,7 +4,6 @@ const createError = require('http-errors');
 const express = require('express');
 require('express-async-errors');
 require('./global/index');
-require('./scheduler/scheduler');
 
 const helmet = require('helmet');
 const fs = require('fs');
