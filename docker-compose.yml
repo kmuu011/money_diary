@@ -55,7 +55,7 @@ services:
       - "55555"
     working_dir: /home/node/app
     volumes:
-      - ./Node:/home/node/app
+      - ./node:/home/node/app
 
     environment:
       TZ: "Asia/Seoul"
@@ -82,7 +82,7 @@ services:
       - "55555"
     working_dir: /home/node/app
     volumes:
-      - ./Node:/home/node/app
+      - ./node:/home/node/app
 
     environment:
       TZ: "Asia/Seoul"
@@ -109,7 +109,7 @@ services:
       - "55556"
     working_dir: /home/node/app
     volumes:
-      - ./Node:/home/node/app
+      - ./node:/home/node/app
 
     environment:
       TZ: "Asia/Seoul"
