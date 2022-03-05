@@ -6,6 +6,7 @@ const SERVER_TYPE = process.env.NODE_ENV || '';
 const app = require('../app');
 // @ts-ignore
 const http = require('http');
+// @ts-ignore
 const config = require(`config`);
 
 app.set('port', config.server.port);

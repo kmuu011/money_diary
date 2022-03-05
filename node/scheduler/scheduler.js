@@ -1,6 +1,3 @@
-const express = require('express');
-const router = express.Router();
-
 const utils = require(`libs/utils`);
 const organizer = require(`libs/organizer`);
 
@@ -10,6 +7,8 @@ const nodemailer = require(`libs/nodemailer`);
 const logger = require(`libs/logger`);
 
 const schedule = require('node-schedule');
+
+const SERVER_TYPE = process.env.NODE_ENV || '';
 
 const data_processor = async (data_list) => {
     for(let d of data_list){
@@ -222,5 +221,3 @@ const data_arranger_for_pp = async (list, By) => {
 
 })();
 
-
-module.exports = router;
