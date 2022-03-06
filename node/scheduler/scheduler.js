@@ -105,7 +105,7 @@ const data_arranger_for_pp = async (list, By) => {
     console.log('### 스케줄러 ON ###');
 
     /**
-     * 퀘이사존, 뽐뿌 할인 정보 크롤링
+     * 퀘이사존 할인 정보 크롤링
      * */
     schedule.scheduleJob('0 * * * * *', async () => {
         const start_at = Date.now();
