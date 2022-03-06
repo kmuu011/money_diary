@@ -1,5 +1,5 @@
 const dao_auth_kakao = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const mysql = require('mysql');
 const db = require(`libs/db`);
@@ -26,7 +26,7 @@ dao_auth_kakao.sign_up = async (req, organized_sql) => {
     let sign_up_result = await db.run(req.connector, sql);
 
     if(sign_up_result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return sign_up_result;

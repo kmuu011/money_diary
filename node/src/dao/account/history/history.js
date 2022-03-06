@@ -1,5 +1,5 @@
 const dao_account_history = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const mysql = require('mysql');
 const db = require(`libs/db`);
@@ -102,7 +102,7 @@ dao_account_history.reset_total_amount = async (req) => {
     let result = await db.run(req.connector, sql);
 
     if (result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;
@@ -164,7 +164,7 @@ dao_account_history.insert = async (req, organized_sql) => {
     let result = await db.run(req.connector, sql);
 
     if(result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;
@@ -181,7 +181,7 @@ dao_account_history.update = async (req, organized_sql) => {
     let result = await db.query(sql);
 
     if (result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;
@@ -194,7 +194,7 @@ dao_account_history.delete = async (req) => {
     let result = await db.run(req.connector, sql);
 
     if (result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;

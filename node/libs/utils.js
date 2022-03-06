@@ -1,6 +1,6 @@
 const utils = {};
 
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 const fs = require('fs');
 
 const mysql = require('mysql');
@@ -75,14 +75,14 @@ utils.left_padding = async (value, count, str) => {
 
 utils.file_upload = async (key, buffer) => {
     if(fs.existsSync(BASE_PATH + key)){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     try {
         fs.writeFileSync(BASE_PATH + key, buffer);
     }catch (e) {
         console.log(e);
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return true;
@@ -99,7 +99,7 @@ utils.file_delete = async (key_list) => {
                 fs.unlinkSync(key);
             } catch (e) {
                 console.log(e);
-                throw Message.SERVER_ERROR;
+                throw message.SERVER_ERROR;
             }
         }
     }
@@ -131,7 +131,7 @@ utils.file_arranger = async (files) => {
             const k = f.fieldname;
 
             if (k === undefined) {
-                throw Message.WRONG_PARAM('파일 구분');
+                throw message.WRONG_PARAM('파일 구분');
             }
 
             if (storage[k] === undefined) {
@@ -152,35 +152,29 @@ utils.object_delete_undefined = async (data_obj) => {
 };
 
 utils.arrange_data = async (data) => {
-    if(data.constructor === Array){
-        for(let v of data){
-            if(v === undefined) continue;
+    if(data.constructor === Array && data.length !== 0){
+        for(let i=0 ; i<data.length ; i++){
+            if(data[i] === undefined || data[i] === null) continue;
 
-            if((v.constructor === Array && v.length !== 0) || v.constructor === Object){
-                v = await utils.arrange_data(v);
-            }
-
-            if(v !== undefined && v.constructor === String){
-                v = v.toString().replace(/\?/g, '？');
+            if((data[i].constructor === Array && data[i].length !== 0) || data[i].constructor === Object){
+                await utils.arrange_data(data[i]);
+            }else if(data[i].constructor === String){
+                data[i] = data[i].toString().replace(/\?/g, '？');
             }
         }
-    }else if(data.constructor === Object || Object.keys(data).length !== 0){
-        for(let k in data){
+    }else if(data.constructor === Object && Object.keys(data).length !== 0){
+        for(const k in data){
             if(!data.hasOwnProperty(k)) continue;
 
-            if(data[k] === undefined) continue;
+            if(data[k] === undefined || data[k] === null) continue;
 
             if((data[k].constructor === Array && data[k].length !== 0) || data[k].constructor === Object){
-                data[k] = await utils.arrange_data(data[k]);
-            }
-
-            if(data[k] !== undefined && data[k].constructor === String){
+                await utils.arrange_data(data[k]);
+            }else if(data[k].constructor === String){
                 data[k] = data[k].toString().replace(/\?/g, '？');
             }
         }
     }
-
-    return data;
 };
 
 utils.get_date_parser = async (date) => {

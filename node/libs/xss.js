@@ -36,8 +36,6 @@ xss.check = async (data) => {
         data[k] = await script_tag_remover(data[k], is_string, start_script);
         data[k] = await script_tag_remover(data[k], is_string, end_script);
     }
-
-    return data;
 };
 
 module.exports = xss;

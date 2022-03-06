@@ -9,7 +9,7 @@
 //
 // const validator = require(`libs/validator`);
 // const member = require(`libs/member`);
-// const Message = require(`libs/message`);
+// const message = require(`libs/message`);
 //
 // const db = require(`libs/db`);
 // const banking = require(`libs/banking`);

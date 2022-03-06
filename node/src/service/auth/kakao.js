@@ -1,5 +1,5 @@
 const service_auth_kakao = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const config = require(`config`);
 
@@ -26,7 +26,7 @@ service_auth_kakao.get_token = async (code, rd_uri) => {
     let access_data = await auth_kakao.get_access_data(code, rd_uri);
 
     if(access_data === false){
-        throw Message.DETAIL_ERROR('로그인 토큰 정보가 잘못되었습니다. 다시 시도해주세요.');
+        throw message.DETAIL_ERROR('로그인 토큰 정보가 잘못되었습니다. 다시 시도해주세요.');
     }
 
     return access_data;
@@ -53,7 +53,7 @@ service_auth_kakao.get_member_data = async (token, keep_check, req) => {
     let member_data = await auth_kakao.get_member_detail_data(token);
 
     if(member_data === false){
-        throw Message.DETAIL_ERROR('로그인 토큰 정보가 잘못되었습니다. 다시 시도해주세요.');
+        throw message.DETAIL_ERROR('로그인 토큰 정보가 잘못되었습니다. 다시 시도해주세요.');
     }
 
     let auth_id = member_data.id;
@@ -154,7 +154,7 @@ service_auth_kakao.member_link = async (req, auth_id) => {
     let member_link = await dao_auth_kakao.member_link(req.connector, member_info, auth_id);
 
     if(member_link.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     member_info['x-token'] = await member.token(member_info);

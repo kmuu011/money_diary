@@ -97,29 +97,5 @@ class Message extends Error {
 
 }
 
-const code = [
-    200, // 0
-    201, // 1
-    201, // 2
-    201, // 3
-    204 // 4
-];
-
-const message = [
-    'Success',  // 0 - 200
-    'Created', // 1 - 201
-    'Updated', // 2 - 201
-    'Deleted', // 3 - 201
-    'No content' // 4 - 204
-];
-
-Message.json = function (num, idx) {
-    const json = { code: code[num], message: message[num] };
-
-    if (idx) json.idx = idx;
-
-    return json;
-};
-
 
 module.exports = Message;

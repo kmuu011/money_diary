@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const validator = require(`libs/validator`);
 
@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
     let { type } = req.query;
 
     if(type === undefined && type !== 0 && type !== 1){
-        throw Message.INVALID_PARAM('type');
+        throw message.INVALID_PARAM('type');
     }
 
     res.json(await service_account_history_category.select_list(req.member.idx, type));
@@ -28,7 +28,7 @@ router.post('/', async (req, res, next) => {
     req.connector = await db.get_connection();
 
     if(type !== 1 && type !== 0){
-        throw Message.WRONG_PARAM('type');
+        throw message.WRONG_PARAM('type');
     }
 
     await service_account_history_category.insert(req);
@@ -50,7 +50,7 @@ router.use('/:category_idx(\\d+)', (() => {
         let result = await service_account_history_category.select_one(req.member.idx, category_idx);
 
         if(result.length !== 1){
-            throw Message.NOT_EXIST('유형');
+            throw message.NOT_EXIST('유형');
         }
 
         req.category_info = result[0];
@@ -62,15 +62,15 @@ router.use('/:category_idx(\\d+)', (() => {
         let { name, color } = req.body;
 
         if(req.category_info.default === 1 && name !== undefined){
-            throw Message.CAN_NOT_ACTION_DEFAULT;
+            throw message.CAN_NOT_ACTION_DEFAULT;
         }
 
         if(name === undefined && color === undefined){
-            throw Message.INVALID_PARAM('parameter');
+            throw message.INVALID_PARAM('parameter');
         }
 
         if(color !== undefined && color.length > 6){
-            throw Message.WRONG_PARAM('color');
+            throw message.WRONG_PARAM('color');
         }
 
         req.connector = await db.get_connection();
@@ -84,7 +84,7 @@ router.use('/:category_idx(\\d+)', (() => {
 
     router.delete('/', async (req, res, next) => {
         if(req.category_info.default === 1){
-            throw Message.CAN_NOT_ACTION_DEFAULT;
+            throw message.CAN_NOT_ACTION_DEFAULT;
         }
 
         req.connector = await db.get_connection();

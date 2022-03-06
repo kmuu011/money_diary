@@ -2,7 +2,7 @@ const member = {};
 
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const cipher = require(`libs/cipher`);
 
@@ -20,19 +20,19 @@ const login_check = async (req, res) => {
     let check;
 
     if(token === undefined || token === null || token === 'undefined' || token === 'null'){
-        throw Message.UNAUTHORIZED
+        throw message.UNAUTHORIZED
     }
 
     check = await member.decode_token(token);
 
     if(check == null){
-        throw Message.UNAUTHORIZED;
+        throw message.UNAUTHORIZED;
     }
 
     req.member = await dao_member.select_member(check.idx);
 
     if((req.member.ip !== check.ip) || (req.member.user_agent !== check.user_agent)){
-        throw Message.UNAUTHORIZED;
+        throw message.UNAUTHORIZED;
     }
 
     if(check.keep_check === true){
@@ -94,7 +94,7 @@ member.admin_check = () => async (req, res, next) => {
     await login_check(req);
 
     if(req.member[0].admin !== 1){
-        throw Message.FORBIDDEN;
+        throw message.FORBIDDEN;
     }
 
     if(next) next();

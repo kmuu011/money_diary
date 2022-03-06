@@ -1,5 +1,5 @@
 const dao_account = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const mysql = require('mysql');
 const db = require(`libs/db`);
@@ -33,7 +33,7 @@ dao_account.insert = async (req) => {
     let result = await db.run(req.connector, sql);
 
     if(result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;
@@ -50,7 +50,7 @@ dao_account.update = async (req) => {
     let result = await db.query(sql);
 
     if(result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;
@@ -64,7 +64,7 @@ dao_account.delete = async (account_idx) => {
     let result = await db.query(sql);
 
     if(result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;

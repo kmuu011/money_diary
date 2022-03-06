@@ -1,5 +1,5 @@
 const dao_member = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const mysql = require('mysql');
 const db = require(`libs/db`);
@@ -16,7 +16,7 @@ dao_member.select_member = async (member_idx) => {
     let member_info = await db.query(sql);
 
     if(member_info.length === 0){
-        throw Message.UNAUTHORIZED;
+        throw message.UNAUTHORIZED;
     }
 
     if(member_info[0].auth_id !== null){
@@ -35,11 +35,11 @@ dao_member.login = async (id, password) => {
     let member_check = await db.query(sql);
 
     if(member_check.length === 0){
-        throw Message.WRONG_ID_OR_PASSWORD;
+        throw message.WRONG_ID_OR_PASSWORD;
     }
 
     if(member_check[0].auth_id !== null){
-        throw Message.CONNECTED_SNS;
+        throw message.CONNECTED_SNS;
     }
 
     return member_check[0];
@@ -54,7 +54,7 @@ dao_member.sign_up = async (req) => {
     let sign_up = await db.run(req.connector, sql);
 
     if(sign_up.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return sign_up;
@@ -65,7 +65,7 @@ dao_member.update_member = async (req, member_idx) => {
 
     member_idx = member_idx === undefined ? req?.member?.idx : member_idx;
 
-    if(member_idx === undefined) throw Message.DETAIL_ERROR('member_idx가 유효하지않습니다.');
+    if(member_idx === undefined) throw message.DETAIL_ERROR('member_idx가 유효하지않습니다.');
 
     sql = "UPDATE member " +
         "SET " + sql_set + " updated_at = UNIX_TIMESTAMP() " +
@@ -75,7 +75,7 @@ dao_member.update_member = async (req, member_idx) => {
     let update_member = await db.run(req.connector, sql);
 
     if(update_member.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return update_member;
@@ -90,7 +90,7 @@ dao_member.update_mailing_test_at = async (req) => {
     let update_member = await db.run(req.connector, sql);
 
     if(update_member.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return update_member;
@@ -105,7 +105,7 @@ dao_member.update_profile_img = async (req, key) => {
     let update_profile_img = await db.run(req.connector, sql);
 
     if(update_profile_img.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return update_profile_img;
@@ -128,7 +128,7 @@ dao_member.id_dup_check = async (id) => {
     let id_check = await db.query(sql);
 
     if(id_check.length > 0){
-        throw Message.ALREADY_EXIST('아이디');
+        throw message.ALREADY_EXIST('아이디');
     }
 
     return id_check;
@@ -142,7 +142,7 @@ dao_member.email_dup_check = async (email) => {
     let email_check = await db.query(sql);
 
     if(email_check.length > 0){
-        throw Message.ALREADY_EXIST('이메일');
+        throw message.ALREADY_EXIST('이메일');
     }
 
     return email_check;
@@ -155,7 +155,7 @@ dao_member.nick_dup_check = async (nickname) => {
     let nick_check = await db.query(sql);
 
     if(nick_check.length > 0){
-        throw Message.ALREADY_EXIST('닉네임');
+        throw message.ALREADY_EXIST('닉네임');
     }
 
     return nick_check;
@@ -169,7 +169,7 @@ dao_member.old_pwd_check = async (member_idx, old_password) => {
     let pwd_check = await db.query(sql);
 
     if(pwd_check.length !== 1){
-        throw Message.WRONG_PARAM('이전 비밀번호');
+        throw message.WRONG_PARAM('이전 비밀번호');
     }
 
     return true;

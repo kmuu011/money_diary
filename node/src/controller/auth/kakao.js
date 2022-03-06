@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const validator = require(`libs/validator`);
 
@@ -45,7 +45,7 @@ router.post('/sign_up', async (req, res, next) => {
     await validator.str('nickname, email', req.body);
 
     if(auth_data === undefined || auth_data.token === undefined){
-        throw Message.WRONG_PARAM('auth_data');
+        throw message.WRONG_PARAM('auth_data');
     }
 
     await validator.ban_str(nickname, ban_str_list);

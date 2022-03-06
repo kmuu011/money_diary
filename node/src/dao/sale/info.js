@@ -1,5 +1,5 @@
 const dao_sale_info = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const mysql = require('mysql');
 const db = require(`libs/db`);
@@ -30,7 +30,7 @@ dao_sale_info.insert = async (organized_sql) => {
     let insert_item = await db.query(sql);
 
     if(insert_item.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return insert_item;
@@ -47,7 +47,7 @@ dao_sale_info.update = async (organized_sql, unq_key) => {
     let update_item = await db.query(sql);
 
     if(update_item.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return update_item;

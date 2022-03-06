@@ -3,7 +3,7 @@ const router = express.Router();
 
 const validator = require(`libs/validator`);
 const member = require(`libs/member`);
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const db = require(`libs/db`);
 
@@ -26,13 +26,13 @@ router.post('/', async (req, res, next) => {
     let dup_check = await service_sale_keyword.dup_check(req, keyword);
 
     if(dup_check.length !== 0){
-        throw Message.ALREADY_EXIST('키워드');
+        throw message.ALREADY_EXIST('키워드');
     }
 
     let keyword_list = await service_sale_keyword.select(req);
 
     if(req.member.max_sale_keyword_cnt <= keyword_list.length) {
-        throw Message.MAX_SALE_KEYWORD(req.member.max_sale_keyword_cnt);
+        throw message.MAX_SALE_KEYWORD(req.member.max_sale_keyword_cnt);
     }
 
     req.connector = await db.get_connection();
@@ -55,7 +55,7 @@ router.use('/:keyword_idx', (() => {
         let keyword_info = await service_sale_keyword.select_one(req, keyword_idx);
 
         if(keyword_info.length === 0){
-            throw Message.NOT_EXIST('키워드');
+            throw message.NOT_EXIST('키워드');
         }
 
         req.keyword_info = keyword_info[0];

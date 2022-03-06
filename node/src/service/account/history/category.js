@@ -1,6 +1,6 @@
 const service_account_history_category = {};
 
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 const organizer = require(`libs/organizer`);
 const utils = require(`libs/utils`);
 
@@ -26,7 +26,7 @@ service_account_history_category.insert = async (req) => {
     let organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
 
     if(dup_check.length !== 0){
-        throw Message.ALREADY_EXIST('이름');
+        throw message.ALREADY_EXIST('이름');
     }
 
     return await dao_account_history_category.insert(req, organized_sql);
@@ -44,7 +44,7 @@ service_account_history_category.update = async (req) => {
     let dup_check = await dao_account_history_category.duplicate_check(member_idx, name, type);
 
     if(dup_check.length !== 0){
-        throw Message.ALREADY_EXIST('이름');
+        throw message.ALREADY_EXIST('이름');
     }
 
     let organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));

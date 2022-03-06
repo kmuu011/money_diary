@@ -3,7 +3,7 @@ const router = express.Router();
 
 const validator = require(`libs/validator`);
 const member = require(`libs/member`);
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const db = require(`libs/db`);
 
@@ -40,12 +40,12 @@ router.use('/:account_idx(\\d+)', (() => {
         let result = await service_account.select_one(account_idx);
 
         if(result.length === 0){
-            throw Message.NOT_EXIST('가계부');
+            throw message.NOT_EXIST('가계부');
         }
 
         //자신의 가계부인지 체크
         if(result[0].member_idx !== req.member.idx){
-            throw Message.FORBIDDEN;
+            throw message.FORBIDDEN;
         }
 
         req.account_info = result[0];

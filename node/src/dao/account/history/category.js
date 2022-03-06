@@ -1,5 +1,5 @@
 const dao_account_history_category = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const mysql = require('mysql');
 const db = require(`libs/db`);
@@ -41,7 +41,7 @@ dao_account_history_category.insert = async (req, organized_sql) => {
     let insert_color = await db.run(req.connector, sql);
 
     if(insert_color.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return true;
@@ -60,7 +60,7 @@ dao_account_history_category.update = async (req, organized_sql) => {
     let result = await db.query(sql);
 
     if (result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;
@@ -73,7 +73,7 @@ dao_account_history_category.delete = async (req) => {
     let result = await db.run(req.connector, sql);
 
     if (result.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;
@@ -95,7 +95,7 @@ dao_account_history_category.initialize_history = async (req) => {
     let result = await db.run(req.connector, sql);
 
     if(result_cnt[0].cnt !== result.affectedRows){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return result;

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const member = require(`libs/member`);
 const nodemailer = require(`libs/nodemailer`);
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 const db = require(`libs/db`);
 
 const service_member = require(`service/member/member`);
@@ -14,7 +14,7 @@ router.use('/keyword', require('./keyword'));
 router.post('/mailing_test', async (req, res, next) => {
     let m = req.member;
 
-    if(m.mailing_test === 0) throw Message.DETAIL_ERROR('1분 뒤에 테스트 메일을 다시 발송할 수 있습니다.');
+    if(m.mailing_test === 0) throw message.DETAIL_ERROR('1분 뒤에 테스트 메일을 다시 발송할 수 있습니다.');
 
     req.connector = await db.get_connection();
 
@@ -33,7 +33,7 @@ router.post('/mailing_test', async (req, res, next) => {
     let result = await nodemailer.send(m.nickname, m.email, '[특가정보] 이메일 확인용 테스트 메일입니다.', html)
 
     if(result === false){
-        throw Message.DETAIL_ERROR('이메일이 올바르지 않습니다. 다시 확인해주세요.');
+        throw message.DETAIL_ERROR('이메일이 올바르지 않습니다. 다시 확인해주세요.');
     }
 
 

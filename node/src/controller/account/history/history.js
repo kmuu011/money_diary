@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const validator = require(`libs/validator`);
 const db = require(`libs/db`);
@@ -68,7 +68,7 @@ router.post('/', async (req, res, next) => {
     await validator.int('amount, type, category', req.body);
 
     if(type !== 0 && type !== 1){
-        throw Message.WRONG_PARAM('type');
+        throw message.WRONG_PARAM('type');
     }
 
     req.connector = await db.get_connection();
@@ -91,11 +91,11 @@ router.use('/:history_idx(\\d+)', (() => {
         let result = await service_account_history.selectOne(history_idx);
 
         if(result.length !== 1){
-            throw Message.NOT_EXIST('history');
+            throw message.NOT_EXIST('history');
         }
 
         if(result[0].member_idx !== req.member.idx){
-            throw Message.FORBIDDEN;
+            throw message.FORBIDDEN;
         }
 
         req.history_info = result[0];
@@ -110,7 +110,7 @@ router.use('/:history_idx(\\d+)', (() => {
         await validator.int('amount, type, category', req.body);
 
         if(type !== 0 && type !== 1){
-            throw Message.WRONG_PARAM('type');
+            throw message.WRONG_PARAM('type');
         }
 
         req.connector = await db.get_connection();

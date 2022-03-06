@@ -1,5 +1,5 @@
 const service_account_history = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const utils = require(`libs/utils`);
 
@@ -95,7 +95,7 @@ service_account_history.insert = async (req) => {
     let category = await dao_account_history_category.select_one(member_idx, category_idx);
 
     if(category.length !== 1){
-        throw Message.WRONG_PARAM('category_idx');
+        throw message.WRONG_PARAM('category_idx');
     }
 
     let organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
@@ -121,7 +121,7 @@ service_account_history.update = async (req) => {
     let category = await dao_account_history_category.select_one(member_idx, category_idx);
 
     if(category.length !== 1){
-        throw Message.WRONG_PARAM('category_idx');
+        throw message.WRONG_PARAM('category_idx');
     }
 
     let organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));

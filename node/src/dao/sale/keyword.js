@@ -1,5 +1,5 @@
 const dao_sale_keyword = {};
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const mysql = require('mysql');
 const db = require(`libs/db`);
@@ -38,7 +38,7 @@ dao_sale_keyword.insert = async (req) => {
     let insert_item = await db.run(req.connector, sql);
 
     if(insert_item.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return insert_item;
@@ -52,7 +52,7 @@ dao_sale_keyword.delete = async (req, keyword_idx) => {
     let delete_item = await db.run(req.connector, sql);
 
     if(delete_item.affectedRows !== 1){
-        throw Message.SERVER_ERROR;
+        throw message.SERVER_ERROR;
     }
 
     return delete_item;

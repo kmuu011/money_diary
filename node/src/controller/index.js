@@ -5,7 +5,7 @@ const utils = require(`libs/utils`);
 
 const db = require(`libs/db`);
 
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const apis = [
     'member', 'account', 'auth', 'admin',
@@ -13,11 +13,11 @@ const apis = [
 ];
 
 router.use(async (req, res, next) => {
-    req.body = await xss.check(req.body);
-    req.query = await xss.check(req.query);
+    await xss.check(req.body);
+    await xss.check(req.query);
 
-    req.body = await utils.arrange_data(req.body);
-    req.query = await utils.arrange_data(req.query);
+    await utils.arrange_data(req.body);
+    await utils.arrange_data(req.query);
     
     next();
 });
@@ -41,7 +41,7 @@ router.use(async (err, req, res, next) => {
         await db.rollback(req.connector);
     }
 
-    if(err instanceof Message){
+    if(err instanceof message){
         res.status(err.status).json(err);
         return
     }

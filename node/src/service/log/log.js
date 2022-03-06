@@ -14,7 +14,7 @@ service_log.insert_visit = async (req) => {
 
     let data_obj = {ip, user_agent, url, member_idx};
 
-    data_obj = await utils.arrange_data(data_obj);
+    await utils.arrange_data(data_obj);
 
     req.organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
 

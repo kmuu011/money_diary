@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const validator = require(`libs/validator`);
 const member = require(`libs/member`);
@@ -67,7 +67,7 @@ router.patch('/', member.login_check(), async (req, res, next) => {
 
     if(req.member.auth_id === null) {
         if (old_password === undefined || old_password.toString().replace(/\s/g, '') === '') {
-            throw Message.INVALID_PARAM('이전 비밀번호');
+            throw message.INVALID_PARAM('이전 비밀번호');
         }
 
         await service_member.old_pwd_check(req.member.idx, old_password);

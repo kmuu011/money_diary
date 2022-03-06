@@ -1,4 +1,4 @@
-const Message = require(`libs/message`);
+const message = require(`libs/message`);
 
 const validator = {};
 
@@ -11,13 +11,13 @@ validator.str = async (keys, obj) => {
 
     for(const k of keys){
         if(obj[k] === undefined || obj[k].toString().replace(/\s/g, '') === ''){
-            throw Message.INVALID_PARAM(k);
+            throw message.INVALID_PARAM(k);
         }
 
         obj[k] = obj[k].toString();
 
         if(obj[k].constructor !== String){
-            throw Message.WRONG_PARAM(k)
+            throw message.WRONG_PARAM(k)
         }
     }
 
@@ -29,13 +29,13 @@ validator.int = async (keys, obj) => {
 
     for(const k of keys){
         if(obj[k] === undefined || isNaN(parseInt(obj[k]))){
-            throw Message.INVALID_PARAM(k);
+            throw message.INVALID_PARAM(k);
         }
 
         obj[k] = parseInt(obj[k]);
 
         if(obj[k].constructor !== Number){
-            throw Message.WRONG_PARAM(k)
+            throw message.WRONG_PARAM(k)
         }
     }
 
@@ -47,7 +47,7 @@ validator.data = async (keys, obj) => {
 
     for(const k of keys){
         if(obj[k] === undefined || isNaN(parseInt(obj[k]))){
-            throw Message.INVALID_PARAM(k);
+            throw message.INVALID_PARAM(k);
         }
     }
 
@@ -59,7 +59,7 @@ validator.ban_str = async (value, list) => {
 
     for(const k of list){
         if(value.indexOf(k) !== -1){
-            throw Message.INCLUDE_BAN_KEYWORD(value);
+            throw message.INCLUDE_BAN_KEYWORD(value);
         }
     }
     return true;
@@ -69,7 +69,7 @@ validator.file_img = async (files) => {
     let file_list = [];
 
     if(files === undefined || files.length === 0){
-        throw Message.INVALID_PARAM('image_file');
+        throw message.INVALID_PARAM('image_file');
     }
 
     for(const f of files){
@@ -83,11 +83,11 @@ validator.file_img = async (files) => {
         mime_type = f.mimetype.replace('image/', '').toLowerCase();
 
         if(!validator.type.img.reg.test(type) && !validator.type.img.reg.test(mime_type)){
-            throw Message.WRONG_PARAM(validator.type.img.msg);
+            throw message.WRONG_PARAM(validator.type.img.msg);
         }
 
         if(size/1024/1024 > 10){
-            throw Message.TOO_LARGE_SIZE_FILE(10);
+            throw message.TOO_LARGE_SIZE_FILE(10);
         }
 
         file_list.push({name, type, size, buffer});
