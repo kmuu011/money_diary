@@ -12,9 +12,6 @@ import deleteButton from "static/img/button/close/close_white_36dp.svg";
 
 import Button from "components/Button/Button";
 
-let complete = 0;
-let fail = 0;
-
 function Index() {
     const [ hidden, setHidden ] = useState(true);
     const keywordRef = useRef();
@@ -107,21 +104,6 @@ function Index() {
         selectKeyword();
     }
 
-    async function test() {
-        let result = await API_saleKeyword.test();
-
-        console.log(result)
-        // for(let i=0 ; i<10000 ; i++) {
-        //
-        //     if (result?.status === 200) {
-        //         complete++
-        //     }else {
-        //         fail++;
-        //         console.log(result)
-        //     }
-        //     console.log('fail = ' + fail);
-        // }
-    }
 
     return (
         <div className={"App_container"}>

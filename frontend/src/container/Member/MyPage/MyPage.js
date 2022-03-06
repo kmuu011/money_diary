@@ -78,10 +78,9 @@ function Index() {
 
             <div className="my_page">
                 <div className={"profile_img_wrapper"}>
-                    <div className={"profile_img_border"}>
+                    <div className={"profile_img_border"} onClick={() => openImgModifyModal()}>
                         <img className={"profile_image"} src={getMemberInfo.profile_img_key === null ? NoImage : utils.getLocation() + getMemberInfo.profile_img_key}
                              alt={"profile_image"}
-                             onClick={() => openImgModifyModal()}
                         />
                     </div>
                 </div>

@@ -14,8 +14,6 @@ const organizer = require(`libs/organizer`);
 
 const member = require(`libs/member`);
 
-// router.use(member.admin_check());
-
 const dao_mem = require(`dao/member/member`);
 const dao_sale_info = require(`dao/sale/info`);
 
