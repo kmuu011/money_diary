@@ -17,8 +17,10 @@ const schedule = require('node-schedule');
 
 const SERVER_TYPE = process.env.NODE_ENV;
 
-const crawler = require("crawler");
+const Crawler = require("crawler");
+
 const quasarzone_url = 'https://quasarzone.com';
+const ppomppu_url = 'https://www.ppomppu.co.kr/zboard/';
 
 const data_processor = async (data_list) => {
     for(const d of data_list){
@@ -55,46 +57,27 @@ const data_processor = async (data_list) => {
     }
 };
 
-const data_arranger_for_pp = async (list, By) => {
-    const item_list = [];
+let data_arranger_for_pp = async (list, $) => {
+    let item_list = [];
 
-    for(const l of list){
-        const td = await l.findElements(By.tagName('td'));
-        const unq_key = 'pp' + await td[0].getText();
-
-        let obj = {};
-        if(unq_key === 'pp') continue;
-
-        const url = await td[2].findElement(By.tagName('a')).getAttribute('href');
-        const title = await td[2].findElement(By.tagName('font')).getText();
+    list.each(function() {
+        const url = ppomppu_url + $(this).find('table').find('a').attr('href');
+        const title = $(this).find('table').find('a').text();
+        const title_string = $(this).find('font.list_title').text();
+        const price = '별도 확인';
         const price_type = '';
         const type = 1;
+        const state = title_string === '' ? '종료' : '진행중';
 
-        let state = '진행중';
-        let category;
-        let price = '별도 확인';
+        const temp_category = $(this).find('table').find('span').text();
+        const category = temp_category.substring(temp_category.indexOf('[')+1, temp_category.indexOf(']')).replace(/\s/g, '');
 
-        try {
-            await td[2].findElement(By.className('list_title'));
-        }catch (e) {
-            state = '종료';
+        const unq_key = 'pp' + $(this).find('td:first-child.eng.list_vspace').text().replace(/\s/g, '');
+
+        if(url.indexOf('view.php')-ppomppu_url.length === 0) {
+            item_list.push({title, url, price, price_type, type, state, category, unq_key});
         }
-
-        const span = await td[2].findElement(By.tagName('div')).findElements(By.tagName('span'));
-
-        for(const s of span){
-            const text = await s.getText();
-
-            if(text.indexOf('[') !== -1) {
-                category = text.replace(/\[/g, '').replace(/\]/g, '');
-                break;
-            }
-        }
-
-        obj = {unq_key, title, category, state, url, price, price_type, type};
-
-        item_list.push(obj);
-    }
+    });
 
     return item_list;
 };
@@ -105,19 +88,19 @@ const data_arranger_for_pp = async (list, By) => {
     console.log('### 스케줄러 ON ###');
 
     /**
-     * 퀘이사존 할인 정보 크롤링
+     * 퀘이사존, 뽐뿌 할인 정보 크롤링
      * */
     schedule.scheduleJob('0 * * * * *', async () => {
         const start_at = Date.now();
 
-        const start_time_obj = await utils.get_date_parser(new Date());
+        // const start_time_obj = await utils.get_date_parser(new Date());
+        // if(start_time_obj.minute % 5 !== 0) return;
 
-        if(start_time_obj.minute % 5 !== 0) return;
-
-        const connector = new crawler({
+        const connector = new Crawler({
             maxConnections: 1
         });
 
+        //퀘이사존 크롤링
         connector.queue([{
             uri:'https://quasarzone.com/bbs/qb_saleinfo',
             callback: async function(err, response, done){
@@ -156,7 +139,6 @@ const data_arranger_for_pp = async (list, By) => {
 
                     if (data_list.length !== 0) {
                         await utils.arrange_data(data_list);
-
                         await data_processor(data_list);
                     }
 
@@ -170,127 +152,158 @@ const data_arranger_for_pp = async (list, By) => {
             }
         }]);
 
-    });
+        //뽐뿌 크롤링
+        connector.queue([{
+            uri:'https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu',
+            callback: async function(err, response, done){
 
-    /**
-     * 뽐뿌 할인 정보 크롤링
-     * */
-    schedule.scheduleJob('0 * * * * *', async () => {
-        const start_at = Date.now();
-
-        const start_time_obj = await utils.get_date_parser(new Date());
-
-        if(start_time_obj.minute % 5 !== 0) return;
-
-        const { Builder, By } = require('selenium-webdriver');
-        const chrome = require('selenium-webdriver/chrome');
-        const options = new chrome.Options();
-        options.addArguments('--incognito');
-        options.addArguments('--headless');
-        options.addArguments('--no-sandbox');
-        options.addArguments("--single-process");
-        options.addArguments("--disable-dev-shm-usage");
-
-        const driver = await new Builder()
-            .forBrowser('chrome')
-            .setChromeOptions(options)
-            .build();
-
-        let data_list = [];
-
-        try {
-            // 퀘이사존 크롤러
-            // await new Promise(async (resolve) => {
-            //     try {
-            //         await driver.get('https://quasarzone.com/bbs/qb_saleinfo');
-            //
-            //         await utils.sleep(1);
-            //
-            //         const element_list = await driver.findElements(By.className('market-info-list'));
-            //
-            //         for (const e of element_list) {
-            //             const state = await e.findElement(By.className('label')).getText();
-            //             let title, obj;
-            //
-            //             try {
-            //                 title = await e.findElement(By.className('ellipsis-with-reply-cnt')).getText();
-            //             } catch (e) {
-            //                 continue;
-            //             }
-            //
-            //             const category = (await e.findElement(By.className('category')).getText()).replace(/\s/g, '');
-            //             const price = (await e.findElement(By.className('text-orange')).getText()).replace(/\s/g, '');
-            //             const type = 0;
-            //             let new_price = '';
-            //
-            //             for (let d of price) {
-            //                 if ((/([0-9])|[.]/).test(d)) new_price += d;
-            //             }
-            //
-            //             const price_type = price[0];
-            //             const url = await e.findElement(By.className('subject-link')).getAttribute('href');
-            //             const unq_key = 'qz' + url.substring(url.lastIndexOf('/') + 1);
-            //
-            //             obj = {
-            //                 title, category, price: new_price,
-            //                 price_type, url, unq_key, state, type
-            //             };
-            //
-            //             data_list.push(obj);
-            //         }
-            //
-            //         if(data_list.length !== 0) {
-            //             await utils.arrange_data(data_list);
-            //
-            //             await data_processor(data_list);
-            //         }
-            //
-            //     } catch (e) {
-            //         logger.error(e);
-            //         logger.error('퀘이사존 크롤러 오류');
-            //     } finally {
-            //         resolve('');
-            //     }
-            // });
-            //
-            // data_list = [];
-            // await utils.sleep(5);
-
-            // 뽐뿌 크롤러
-            await new Promise(async (resolve) => {
                 try {
-                    await driver.get('https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu');
+                    if (err) {
+                        throw err;
+                    } else {
+                        const $ = response.$;
+                        const element = $('table#revolution_main_table');
+                        const list0 = element.find('tr.list0');
+                        const list1 = element.find('tr.list1');
 
-                    await utils.sleep(1);
+                        const data_list = [...await data_arranger_for_pp(list0, $), ...await data_arranger_for_pp(list1, $)];
 
-                    const list0 = await driver.findElements(By.className('list0'));
-                    const list1 = await driver.findElements(By.className('list1'));
-
-                    data_list = [...await data_arranger_for_pp(list0, By), ...await data_arranger_for_pp(list1, By)];
-
-                    if(data_list.length !== 0) {
-                        await utils.arrange_data(data_list);
-
-                        await data_processor(data_list);
+                        if (data_list.length !== 0) {
+                            await utils.arrange_data(data_list);
+                            await data_processor(data_list);
+                        }
                     }
 
-                }catch (e) {
+                } catch (e) {
                     logger.error(e);
                     logger.error('뽐뿌 크롤러 오류');
-                }finally {
-                    resolve('');
+                } finally {
+                    logger.info(`뽐뿌 크롤러 완료 ${((Date.now()-start_at)/1000).toFixed(1)}초 소요`);
+                    done();
                 }
-            });
-
-        } catch (e) {
-            logger.error(e);
-            logger.error('크롤링 오류로 드라이버 종료');
-            driver.quit();
-        }finally {
-            logger.info(`크롤러 완료 ${((Date.now()-start_at)/1000).toFixed(1)}초 소요`);
-            driver.quit();
-        }
+            }
+        }]);
     });
+
+    // /**
+    //  * selenium 기반 퀘이사존, 뽐뿌 할인 정보 크롤링
+    //  * */
+    // schedule.scheduleJob('0 * * * * *', async () => {
+    //     const start_at = Date.now();
+    //
+    //     const start_time_obj = await utils.get_date_parser(new Date());
+    //
+    //     if(start_time_obj.minute % 5 !== 0) return;
+    //
+    //     const { Builder, By } = require('selenium-webdriver');
+    //     const chrome = require('selenium-webdriver/chrome');
+    //     const options = new chrome.Options();
+    //     options.addArguments('--incognito');
+    //     options.addArguments('--headless');
+    //     options.addArguments('--no-sandbox');
+    //     options.addArguments("--single-process");
+    //     options.addArguments("--disable-dev-shm-usage");
+    //
+    //     const driver = await new Builder()
+    //         .forBrowser('chrome')
+    //         .setChromeOptions(options)
+    //         .build();
+    //
+    //     let data_list = [];
+    //
+    //     try {
+    //         // 퀘이사존 크롤러
+    //         await new Promise(async (resolve) => {
+    //             try {
+    //                 await driver.get('https://quasarzone.com/bbs/qb_saleinfo');
+    //
+    //                 await utils.sleep(1);
+    //
+    //                 const element_list = await driver.findElements(By.className('market-info-list'));
+    //
+    //                 for (const e of element_list) {
+    //                     const state = await e.findElement(By.className('label')).getText();
+    //                     let title, obj;
+    //
+    //                     try {
+    //                         title = await e.findElement(By.className('ellipsis-with-reply-cnt')).getText();
+    //                     } catch (e) {
+    //                         continue;
+    //                     }
+    //
+    //                     const category = (await e.findElement(By.className('category')).getText()).replace(/\s/g, '');
+    //                     const price = (await e.findElement(By.className('text-orange')).getText()).replace(/\s/g, '');
+    //                     const type = 0;
+    //                     let new_price = '';
+    //
+    //                     for (let d of price) {
+    //                         if ((/([0-9])|[.]/).test(d)) new_price += d;
+    //                     }
+    //
+    //                     const price_type = price[0];
+    //                     const url = await e.findElement(By.className('subject-link')).getAttribute('href');
+    //                     const unq_key = 'qz' + url.substring(url.lastIndexOf('/') + 1);
+    //
+    //                     obj = {
+    //                         title, category, price: new_price,
+    //                         price_type, url, unq_key, state, type
+    //                     };
+    //
+    //                     data_list.push(obj);
+    //                 }
+    //
+    //                 if(data_list.length !== 0) {
+    //                     await utils.arrange_data(data_list);
+    //
+    //                     await data_processor(data_list);
+    //                 }
+    //
+    //             } catch (e) {
+    //                 logger.error(e);
+    //                 logger.error('퀘이사존 크롤러 오류');
+    //             } finally {
+    //                 resolve('');
+    //             }
+    //         });
+    //
+    //         data_list = [];
+    //         await utils.sleep(5);
+    //
+    //         // 뽐뿌 크롤러
+    //         await new Promise(async (resolve) => {
+    //             try {
+    //                 await driver.get('https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu');
+    //
+    //                 await utils.sleep(1);
+    //
+    //                 const list0 = await driver.findElements(By.className('list0'));
+    //                 const list1 = await driver.findElements(By.className('list1'));
+    //
+    //                 data_list = [...await data_arranger_for_pp(list0, By), ...await data_arranger_for_pp(list1, By)];
+    //
+    //                 if(data_list.length !== 0) {
+    //                     await utils.arrange_data(data_list);
+    //
+    //                     await data_processor(data_list);
+    //                 }
+    //
+    //             }catch (e) {
+    //                 logger.error(e);
+    //                 logger.error('뽐뿌 크롤러 오류');
+    //             }finally {
+    //                 resolve('');
+    //             }
+    //         });
+    //
+    //     } catch (e) {
+    //         logger.error(e);
+    //         logger.error('크롤링 오류로 드라이버 종료');
+    //         driver.quit();
+    //     }finally {
+    //         logger.info(`크롤러 완료 ${((Date.now()-start_at)/1000).toFixed(1)}초 소요`);
+    //         driver.quit();
+    //     }
+    // });
 
 })();
 
