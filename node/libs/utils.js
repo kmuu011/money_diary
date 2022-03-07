@@ -114,7 +114,7 @@ utils.file_url_to_buffer = async (uri) => {
         encoding:null
     };
 
-    return await new Promise(async (resolve, reject) => {
+    return await new Promise(async (resolve) => {
         request(options, function(err, response, body) {
             let buffer = Buffer.from(body, 'binary');
 
@@ -151,28 +151,25 @@ utils.object_delete_undefined = async (data_obj) => {
     }
 };
 
+let data_arranger = async (data, key) => {
+    if(data[key] === undefined || data[key] === null) return;
+
+    if((data[key].constructor === Array && data[key].length !== 0) || data[key].constructor === Object){
+        await utils.arrange_data(data[key]);
+    }else if(data[key].constructor === String){
+        data[key] = data[key].toString().replace(/\?/g, '？');
+    }
+};
+
 utils.arrange_data = async (data) => {
     if(data.constructor === Array && data.length !== 0){
         for(let i=0 ; i<data.length ; i++){
-            if(data[i] === undefined || data[i] === null) continue;
-
-            if((data[i].constructor === Array && data[i].length !== 0) || data[i].constructor === Object){
-                await utils.arrange_data(data[i]);
-            }else if(data[i].constructor === String){
-                data[i] = data[i].toString().replace(/\?/g, '？');
-            }
+            await data_arranger(data, i);
         }
     }else if(data.constructor === Object && Object.keys(data).length !== 0){
         for(const k in data){
             if(!data.hasOwnProperty(k)) continue;
-
-            if(data[k] === undefined || data[k] === null) continue;
-
-            if((data[k].constructor === Array && data[k].length !== 0) || data[k].constructor === Object){
-                await utils.arrange_data(data[k]);
-            }else if(data[k].constructor === String){
-                data[k] = data[k].toString().replace(/\?/g, '？');
-            }
+            await data_arranger(data, k);
         }
     }
 };
