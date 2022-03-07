@@ -25,7 +25,6 @@ const ppomppu_url = 'https://www.ppomppu.co.kr/zboard/';
 const data_processor = async (data_list) => {
     for(const d of data_list){
         const dup_check = await dao_sale_info.select_one(d.unq_key);
-        const obj = {};
 
         let organized_sql;
 
@@ -40,11 +39,11 @@ const data_processor = async (data_list) => {
                 let html = nodemailer.storage.sale_info;
                 html = html.replace(/#NICKNAME/g, m.nickname);
                 html = html.replace(/#KEYWORD/g, m.keyword);
-                html = html.replace(/#TITLE/g, obj.title);
-                html = html.replace(/#CATEGORY/g, obj.category);
-                html = html.replace(/#TARGET_URL/g, obj.url);
-                html = html.replace(/#PRICE_TYPE/g, obj.price_type);
-                html = html.replace(/#PRICE/g, await utils.comma_parser(obj.price));
+                html = html.replace(/#TITLE/g, d.title);
+                html = html.replace(/#CATEGORY/g, d.category);
+                html = html.replace(/#TARGET_URL/g, d.url);
+                html = html.replace(/#PRICE_TYPE/g, d.price_type);
+                html = html.replace(/#PRICE/g, await utils.comma_parser(d.price));
 
                 await nodemailer.send(m.nickname, m.email, '[특가정보] 등록하신 키워드의 할인정보가 올라왔어요!', html);
             }
