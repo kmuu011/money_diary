@@ -2,6 +2,7 @@
 
 const createError = require('http-errors');
 const express = require('express');
+const cors = require('cors');
 require('express-async-errors');
 require('./global/index');
 
@@ -23,6 +24,7 @@ const service_log = require(`service/log/log`);
 global.BASE_PATH = __dirname + '/files/';
 
 const app = express();
+app.use(cors());
 
 const options = {etag: false};
 app.set("etag", false);
