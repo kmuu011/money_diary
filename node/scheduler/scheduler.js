@@ -35,6 +35,12 @@ const data_processor = async (data_list) => {
 
             const member_list = await dao_sale_info.select_keyword_user(d.title);
 
+            for(const k in d){
+                if(!d.hasOwnProperty(k)) continue;
+
+                d[k] = d[k].toString().replace(/\？/g, '?');
+            }
+
             for(const m of member_list) {
                 let html = nodemailer.storage.sale_info;
                 html = html.replace(/#NICKNAME/g, m.nickname);
