@@ -69,4 +69,8 @@ UserStore.setTypeAmount = emptyMethod;
 
 UserStore.typeColorSetter = emptyMethod;
 
+UserStore.showHelp = null;
+UserStore.setShowHelp = emptyMethod;
+
+
 

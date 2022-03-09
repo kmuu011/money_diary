@@ -1,0 +1,48 @@
+.help_sale {
+  position: relative;
+  width: 400px;
+
+  border-radius: var(--border-radius);
+
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+  background-color: var(--backgroun-color);
+
+  padding: 35px;
+
+  .close_button {
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .description {
+    text-align: left;
+    word-break: break-all;
+
+    .title {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+
+    .example_title {
+
+    }
+
+    .keyword {
+      color: var(--color-red);
+    }
+  }
+
+  .test_button {
+    margin-top: 30px;
+    height: 50px;
+  }
+}
+
+@media screen and (max-width: 540px){
+  .help_sale {
+    width: 350px;
+  }
+}

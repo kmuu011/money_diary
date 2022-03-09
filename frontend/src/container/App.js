@@ -23,7 +23,6 @@ import Banking from "./Banking/Banking";
 
 import NotFound from "components/NotFound/NotFound.js";
 
-
 const location = {
     home : "/",
     sign_up : "/sign_up",

@@ -11,6 +11,12 @@
     word-break: break-all;
   }
 
+  .question_mark {
+    width: 50px;
+    height: 50px;
+    display: flex;
+  }
+
   .keyword_max_count {
     margin-top: 20px;
     text-align: end;
@@ -38,7 +44,7 @@
 
     .keyword_list {
       height: 100%;
-      max-height: 450px;
+      max-height: 530px;
       overflow-y: scroll;
       display: flex;
       flex-direction: column;
@@ -55,12 +61,6 @@
         align-items: center;
         justify-content: space-between;
 
-        .keyword_delete_button {
-          .delete_button {
-            -webkit-filter: invert(41%) sepia(67%) saturate(3825%) hue-rotate(235deg) brightness(95%) contrast(92%);
-            filter: invert(45%) sepia(87%) saturate(3825%) hue-rotate(235deg) brightness(95%) contrast(92%);
-          }
-        }
       }
     }
   }
@@ -69,7 +69,7 @@
     .keyword_list_body {
       min-height: 300px;
       .keyword_list {
-        max-height: 300px;
+        max-height: 480px;
         .keyword_item {
           width: var(--main-width-mobile);
         }

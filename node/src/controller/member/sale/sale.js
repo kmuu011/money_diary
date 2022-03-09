@@ -27,7 +27,7 @@ router.post('/mailing_test', async (req, res, next) => {
     html = html.replace(/#TITLE/g, '이메일 확인용 메일');
     html = html.replace(/#CATEGORY/g, '테스트');
     html = html.replace(/#TARGET_URL/g, 'https://www.moneydiary.co.kr/member/sale');
-    html = html.replace(/#PRICE_TYPE/g, '\\');
+    html = html.replace(/#PRICE_TYPE/g, '￦');
     html = html.replace(/#PRICE/g, '1,000');
 
     let result = await nodemailer.send(m.nickname, m.email, '[특가정보] 이메일 확인용 테스트 메일입니다.', html)

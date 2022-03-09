@@ -3,17 +3,24 @@ import './Sale.scss';
 import NavButton from 'components/Part/Nav/NavButton';
 import GlobalNav from "components/Nav/GlobalNav";
 
+import HelpSaleModal from "components/Modal/Sale/Help/HelpSaleModal";
+
 import API_sign from 'api/sign';
 import API_saleKeyword from 'api/sale/keyword';
 
 import { UserStore } from "UserStore/UserStore";
 
-import deleteButton from "static/img/button/close/close_white_36dp.svg";
+import deleteButton from "static/img/button/close/close_white_36dp_color_2.svg";
 
 import Button from "components/Button/Button";
 
 function Index() {
     const [ hidden, setHidden ] = useState(true);
+    const [ showHelp, setShowHelp ] = useState(false);
+
+    UserStore.showHelp = showHelp;
+    UserStore.setShowHelp = setShowHelp;
+
     const keywordRef = useRef();
 
     const [ getKeyword, setKeyword ] = useState('');
@@ -61,7 +68,7 @@ function Index() {
     }
 
     async function insertKeyword () {
-        if(getKeyword.length === 0 || getKeyword.toString().replace(/\s/g, '') === ''){
+        if (getKeyword.length === 0 || getKeyword.toString().replace(/\s/g, '') === '') {
             alert('등록할 키워드를 입력해주세요.');
             keywordRef.current.focus();
             return;
@@ -69,7 +76,7 @@ function Index() {
 
         let result = await API_saleKeyword.insert({keyword: getKeyword});
 
-        if(result.status !== 200){
+        if (result.status !== 200) {
             alert(result.data.message);
             return;
         }
@@ -78,19 +85,6 @@ function Index() {
         keywordRef.current.focus();
 
         selectKeyword();
-    }
-
-    async function sendTestMail () {
-        let result = await API_saleKeyword.sendTestMail();
-
-        if(result.status !== 200){
-            alert(result.data.message);
-            return;
-        }
-
-        alert('이메일 발송이 완료되었습니다.' +
-            '\n메일이 확인되지 않을경우 스팸 메일함을 확인해보시거나' +
-            '\n이메일이 올바른지 확인해주세요.');
     }
 
     async function deleteKeyword (keyword_idx) {
@@ -104,20 +98,16 @@ function Index() {
         selectKeyword();
     }
 
-
     return (
         <div className={"App_container"}>
             <GlobalNav hidden={hidden} />
 
-            <NavButton action={() => openNav()}/>
+            <NavButton action={() => openNav()} show_help_button={true}/>
+            <HelpSaleModal/>
 
             <div className="sale_keyword_page">
                 <div className={"title"}>
                     할인정보설정
-                </div>
-
-                <div className={"description"}>
-                    ※등록한 키워드가 포함된 특가 정보를 이메일로 알려드려요.
                 </div>
 
                 <form onSubmit={insertKeyword}>
@@ -135,8 +125,6 @@ function Index() {
                     <div className={"keyword_button_body"}>
                         <Button.button name={"등록하기"} id={"insert_button"}
                                        action={() => insertKeyword()}/>
-                        <Button.button name={"테스트 메일 발송"} id={"insert_button"}
-                                       action={() => sendTestMail()}/>
                     </div>
                 </form>
 

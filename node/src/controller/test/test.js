@@ -92,4 +92,10 @@ router.post('/es6_practice3', async (req, res, next) => {
     res.json(result);
 });
 
+router.post('/data_arranger', async (req, res, next) => {
+
+
+    res.json(req.body);
+});
+
 module.exports = router;
