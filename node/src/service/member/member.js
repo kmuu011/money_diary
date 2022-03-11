@@ -64,9 +64,9 @@ service_member.starter_setting = async (req) => {
 };
 
 service_member.sign_up = async (req) => {
-    let { id, password, email, nickname } = req.body;
+    req.body.password = await member.encrypt(req.body.password);
 
-    req.body.password = await member.encrypt(password);
+    let { id, password, email, nickname } = req.body;
 
     let data_obj = { id, password, email, nickname };
 
