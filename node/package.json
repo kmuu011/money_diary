@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "production": "NODE_ENV=production node ./bin/www.ts",
-    "scheduler": "NODE_ENV=scheduler node ./scheduler/www.ts",
+    "scheduler": "NODE_ENV=scheduler nodemon ./scheduler/www.ts",
     "start": "NODE_ENV=production nodemon -e js,ts,ejs ./bin/www.ts",
     "dev": "NODE_ENV=development nodemon -e js,ts,ejs ./bin/www.ts",
     "test": "NODE_ENV=test node test.ts"
