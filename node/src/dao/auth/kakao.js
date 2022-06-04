@@ -6,10 +6,8 @@ const db = require(`libs/db`);
 
 const member = require(`libs/member`);
 
-let sql;
-
 dao_auth_kakao.exist_check = async (auth_id) => {
-    sql = "SELECT idx, 'SNS 연동 계정' id, nickname, created_at*1000 created_at " +
+    let sql = "SELECT idx, 'SNS 연동 계정' id, nickname, created_at*1000 created_at " +
         "FROM member WHERE auth_id = ?";
     sql = mysql.format(sql, [ auth_id ]);
 
@@ -19,7 +17,7 @@ dao_auth_kakao.exist_check = async (auth_id) => {
 dao_auth_kakao.sign_up = async (req, organized_sql) => {
     let { sql_col, sql_val } = organized_sql;
 
-    sql = "INSERT INTO member " +
+    let sql = "INSERT INTO member " +
         "(" + sql_col + " created_at, updated_at) " +
         "VALUES(" + sql_val + " UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
 
@@ -33,7 +31,7 @@ dao_auth_kakao.sign_up = async (req, organized_sql) => {
 };
 
 dao_auth_kakao.member_link = async (connector, member_info, auth_id) => {
-    sql = "UPDATE member SET auth_type = ?, auth_id = ? " +
+    let sql = "UPDATE member SET auth_type = ?, auth_id = ? " +
         "WHERE idx = ? ";
     sql = mysql.format(sql, [ member.auth_type.kakao, auth_id, member_info.idx ]);
 

@@ -4,10 +4,8 @@ const message = require(`libs/message`);
 const mysql = require('mysql');
 const db = require(`libs/db`);
 
-let sql;
-
 dao_member.select_member = async (member_idx) => {
-    sql = "SELECT idx, id, nickname, email, profile_img_key, " +
+    let sql = "SELECT idx, id, nickname, email, profile_img_key, " +
         "admin, auth_id, ip, user_agent, max_sale_keyword_cnt, " +
         "(mailing_test_at<UNIX_TIMESTAMP()-60) mailing_test " +
         "FROM member WHERE idx = ?";
@@ -27,7 +25,7 @@ dao_member.select_member = async (member_idx) => {
 };
 
 dao_member.login = async (id, password) => {
-    sql = "SELECT idx, id, nickname, created_at*1000 created_at, " +
+    let sql = "SELECT idx, id, nickname, created_at*1000 created_at, " +
         "auth_id " +
         "FROM member WHERE id = ? AND password = ? ";
     sql = mysql.format(sql, [ id, password ]);
@@ -48,7 +46,7 @@ dao_member.login = async (id, password) => {
 dao_member.sign_up = async (req) => {
     let { sql_col, sql_val } = req.organized_sql;
 
-    sql = "INSERT INTO member (" + sql_col + " created_at, updated_at) " +
+    let sql = "INSERT INTO member (" + sql_col + " created_at, updated_at) " +
         "VALUES (" + sql_val + " UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
 
     let sign_up = await db.run(req.connector, sql);
@@ -67,7 +65,7 @@ dao_member.update_member = async (req, member_idx) => {
 
     if(member_idx === undefined) throw message.DETAIL_ERROR('member_idx가 유효하지않습니다.');
 
-    sql = "UPDATE member " +
+    let sql = "UPDATE member " +
         "SET " + sql_set + " updated_at = UNIX_TIMESTAMP() " +
         "WHERE idx = ?";
     sql = mysql.format(sql, [ member_idx ]);
@@ -82,7 +80,7 @@ dao_member.update_member = async (req, member_idx) => {
 };
 
 dao_member.update_mailing_test_at = async (req) => {
-    sql = "UPDATE member " +
+    let sql = "UPDATE member " +
         "SET mailing_test_at = UNIX_TIMESTAMP() " +
         "WHERE idx = ? ";
     sql = mysql.format(sql, [ req.member.idx ]);
@@ -97,7 +95,7 @@ dao_member.update_mailing_test_at = async (req) => {
 };
 
 dao_member.update_profile_img = async (req, key) => {
-    sql = "UPDATE member " +
+    let sql = "UPDATE member " +
         "SET profile_img_key = ? " +
         "WHERE idx = ?";
     sql = mysql.format(sql, [ key, req.member.idx ]);
@@ -112,7 +110,7 @@ dao_member.update_profile_img = async (req, key) => {
 };
 
 dao_member.profile_img_check = async (profile_img_key) => {
-    sql = "SELECT idx FROM member WHERE profile_img_key = ?";
+    let sql = "SELECT idx FROM member WHERE profile_img_key = ?";
     sql = mysql.format(sql, [ profile_img_key ]);
 
     let result = await db.query(sql);
@@ -122,7 +120,7 @@ dao_member.profile_img_check = async (profile_img_key) => {
 
 
 dao_member.id_dup_check = async (id) => {
-    sql = "SELECT idx FROM member WHERE id = ?";
+    let sql = "SELECT idx FROM member WHERE id = ?";
     sql = mysql.format(sql, [ id ]);
 
     let id_check = await db.query(sql);
@@ -136,7 +134,7 @@ dao_member.id_dup_check = async (id) => {
 
 
 dao_member.email_dup_check = async (email) => {
-    sql = "SELECT idx FROM member WHERE email = ?";
+    let sql = "SELECT idx FROM member WHERE email = ?";
     sql = mysql.format(sql, [ email ]);
 
     let email_check = await db.query(sql);
@@ -149,7 +147,7 @@ dao_member.email_dup_check = async (email) => {
 };
 
 dao_member.nick_dup_check = async (nickname) => {
-    sql = "SELECT idx FROM member WHERE nickname = ?";
+    let sql = "SELECT idx FROM member WHERE nickname = ?";
     sql = mysql.format(sql, [ nickname ]);
 
     let nick_check = await db.query(sql);
@@ -162,7 +160,7 @@ dao_member.nick_dup_check = async (nickname) => {
 };
 
 dao_member.old_pwd_check = async (member_idx, old_password) => {
-    sql = "SELECT idx FROM member " +
+    let sql = "SELECT idx FROM member " +
         "WHERE idx = ? AND password = ?";
     sql = mysql.format(sql, [ member_idx, old_password ]);
 

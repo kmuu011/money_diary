@@ -21,8 +21,6 @@ const nodemailer = require(`libs/nodemailer`);
 
 const logger = require(`libs/logger`);
 
-let sql;
-
 router.use('/craw', require('./craw'));
 
 
@@ -92,10 +90,12 @@ router.post('/es6_practice3', async (req, res, next) => {
     res.json(result);
 });
 
-router.post('/data_arranger', async (req, res, next) => {
-
+router.post('/log', async (req, res, next) => {
+    logger.info('테스트');
+    logger.error('테스트');
 
     res.json(req.body);
 });
+
 
 module.exports = router;

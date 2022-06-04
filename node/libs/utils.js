@@ -12,12 +12,10 @@ const color_ran_str = '0123456789abcdef';
 
 const request = require('request');
 
-let sql;
-
 utils.unique_check = async (table_name, key, col) => {
     if(col === undefined) col = 'idx';
 
-    sql = "SELECT idx FROM " + table_name + " WHERE " + col + " = ?";
+    let sql = "SELECT idx FROM " + table_name + " WHERE " + col + " = ?";
     sql = mysql.format(sql, [key]);
 
     const dup_check = await db.query(sql);
