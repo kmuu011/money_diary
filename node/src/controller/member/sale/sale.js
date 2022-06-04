@@ -23,7 +23,7 @@ router.post('/mailing_test', async (req, res, next) => {
     await db.commit(req.connector);
 
     let html = nodemailer.storage.sale_test;
-    html = html.replace(/#NICKNAME/g, m.nickname);
+    html = html.replace(/#NICKNAME/g, member_info.nickname);
     html = html.replace(/#TITLE/g, '이메일 확인용 메일');
     html = html.replace(/#CATEGORY/g, '테스트');
     html = html.replace(/#TARGET_URL/g, 'https://www.moneydiary.co.kr/member/sale');
