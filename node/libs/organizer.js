@@ -1,6 +1,12 @@
+const mysql = require('mysql');
+
 const organizer = {};
 
-const mysql = require('mysql');
+const time_additional_list = [
+    {col: 'created_at', val: 'UNIX_TIMESTAMP()', set: 'created_at = UNIX_TIMESTAMP()'},
+    {col: 'created_at, updated_at', val: 'UNIX_TIMESTAMP(),UNIX_TIMESTAMP()', set: 'created_at = UNIX_TIMESTAMP(), updated_at = UNIX_TIMESTAMP()'},
+    {col: 'updated_at', val: 'UNIX_TIMESTAMP()', set: 'updated_at = UNIX_TIMESTAMP()'},
+];
 
 const sql_creator = (data, key) => {
     let sql_col = '';
