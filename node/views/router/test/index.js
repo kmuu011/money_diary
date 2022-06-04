@@ -1,7 +1,7 @@
-let express = require('express');
-let router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-let serverType = process.env.NODE_ENV;
+const serverType = process.env.NODE_ENV;
 
 router.use(async (req, res, next) => {
     res.locals.serverType = serverType;

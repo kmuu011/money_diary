@@ -32,7 +32,7 @@ nodemailer.send = async (name, email, subject, html, files) => {
     html = html.replace(/#HOME_URL/g, home_url);
 
     if(files !== undefined){
-        for(let f of files){
+        for(const f of files){
             attachments.push({
                 filename: f.file_name + '.' + f.file_type,
                 content: f.file_buffer

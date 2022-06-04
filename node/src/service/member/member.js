@@ -17,14 +17,13 @@ service_member.select_member = async (member_idx) => {
 };
 
 service_member.login = async (id, password, keep_check, req) => {
-    let ip = req.headers.ip;
-    let user_agent = req.headers['user-agent'];
-    let data_obj = {ip, user_agent};
-    let member_idx;
+    const ip = req.headers.ip;
+    const user_agent = req.headers['user-agent'];
+    const data_obj = {ip, user_agent};
 
     password = await member.encrypt(password);
 
-    let mem = await dao_member.login(id, password);
+    const mem = await dao_member.login(id, password);
 
     mem.keep_check = keep_check;
     mem.ip = ip;
@@ -32,28 +31,24 @@ service_member.login = async (id, password, keep_check, req) => {
 
     mem['x-token'] = await member.token(mem);
 
-    req.organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
+    req.organized_sql = organizer.get_sql(data_obj, Object.keys(data_obj));
 
-    member_idx = mem.idx;
-
-    await dao_member.update_member(req, member_idx);
+    await dao_member.update_member(req, mem.idx);
 
     return mem;
 };
 
 service_member.starter_setting = async (req) => {
-    let organized_sql, data_obj;
-
-    for(let t of config.default_account_history_category){
-        data_obj = {
+    for(const t of config.default_account_history_category){
+        const data_obj = {
             member_idx: req.member.idx,
             name: t.name,
             type: t.type,
-            color: await utils.create_color(),
+            color: utils.create_color(),
             default: t.default || 0
         };
 
-        organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
+        const organized_sql = organizer.get_sql(data_obj, Object.keys(data_obj));
 
         await dao_account_history_category.insert(req, organized_sql);
     }
@@ -66,13 +61,13 @@ service_member.starter_setting = async (req) => {
 service_member.sign_up = async (req) => {
     req.body.password = await member.encrypt(req.body.password);
 
-    let { id, password, email, nickname } = req.body;
+    const { id, password, email, nickname } = req.body;
 
-    let data_obj = { id, password, email, nickname };
+    const data_obj = { id, password, email, nickname };
 
-    req.organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
+    req.organized_sql = organizer.get_sql(data_obj, Object.keys(data_obj));
 
-    let sign_up_info = await dao_member.sign_up(req);
+    const sign_up_info = await dao_member.sign_up(req);
 
     req.member = { idx: sign_up_info.insertId };
 
@@ -82,8 +77,9 @@ service_member.sign_up = async (req) => {
 };
 
 service_member.update_member = async (req) => {
-    let { email, nickname, password } = req.body;
-    let data_obj = { email, nickname };
+    const { email, nickname } = req.body;
+    let { password } = req.body;
+    const data_obj = { email, nickname };
 
     if(email !== req.member.email){
         await dao_member.email_dup_check(email);
@@ -94,7 +90,7 @@ service_member.update_member = async (req) => {
         data_obj.password = password;
     }
 
-    req.organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
+    req.organized_sql = organizer.get_sql(data_obj, Object.keys(data_obj));
 
     return await dao_member.update_member(req);
 };
@@ -102,12 +98,12 @@ service_member.update_member = async (req) => {
 service_member.update_profile_img = async (req, file) => {
     let key = undefined;
 
-    let { profile_img_key: before_profile_img_key } = req.member;
+    const { profile_img_key: before_profile_img_key } = req.member;
 
     //파일을 업로드 하지 않으면 프로필 이미지 초기화
     if(file !== undefined) {
         while (true) {
-            key = await utils.create_key(28);
+            key = utils.create_key(28);
             key = config.files.imgs.profile + key + '.' + file[0].type;
             if (await utils.unique_check('member', key, 'profile_img_key')) break;
         }

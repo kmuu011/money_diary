@@ -74,7 +74,6 @@ db.release = async (connector) => {
     connector.release();
 };
 
-
 async function query (sql, connect) {
     try {
         return await new Promise(async (resolve, reject) => {
@@ -93,8 +92,8 @@ async function query (sql, connect) {
                         }
 
                         if(!err && rows !== undefined && rows.constructor === Array) {
-                            for (let r of rows) {
-                                for (let k in r) {
+                            for (const r of rows) {
+                                for (const k in r) {
                                     if (r[k] === undefined || r[k] === 'undefined' || r[k] === null || r[k] === 'null' || r[k].constructor !== String) continue;
 
                                     r[k] = r[k].replace(/\？/g, '?');

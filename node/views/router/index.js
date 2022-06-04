@@ -1,12 +1,11 @@
-let express = require('express');
-let router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-
-let apis = [
+const apis = [
     'test'
 ];
 
-for(let api of apis){
+for(const api of apis){
     router.use('/' + api, require('./' + api + '/index'));
 }
 

@@ -1,7 +1,7 @@
-let socket = {};
+const socket = {};
 
 socket.bot = async (socket, io) => {
-    let room = 'test_room';
+    const room = 'test_room';
 
     socket.on('t_join', async (data) => {
 

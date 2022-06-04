@@ -23,7 +23,7 @@ service_auth_kakao.get_token = async (code, rd_uri) => {
 
     rd_uri += '/api/auth/kakao';
 
-    let access_data = await auth_kakao.get_access_data(code, rd_uri);
+    const access_data = await auth_kakao.get_access_data(code, rd_uri);
 
     if(access_data === false){
         throw message.DETAIL_ERROR('로그인 토큰 정보가 잘못되었습니다. 다시 시도해주세요.');
@@ -33,7 +33,7 @@ service_auth_kakao.get_token = async (code, rd_uri) => {
 };
 
 service_auth_kakao.select_to_auth_id = async (auth_id) => {
-    let exist_check = await dao_auth_kakao.exist_check(auth_id);
+    const exist_check = await dao_auth_kakao.exist_check(auth_id);
 
     let login_token;
 
@@ -45,19 +45,19 @@ service_auth_kakao.select_to_auth_id = async (auth_id) => {
 };
 
 service_auth_kakao.get_member_data = async (token, keep_check, req) => {
-    let ip = req?.headers?.ip;
-    let user_agent = req?.headers['user-agent'];
-    let data_obj = {ip, user_agent};
+    const ip = req?.headers?.ip;
+    const user_agent = req?.headers['user-agent'];
+    const data_obj = {ip, user_agent};
     let member_idx;
 
-    let member_data = await auth_kakao.get_member_detail_data(token);
+    const member_data = await auth_kakao.get_member_detail_data(token);
 
     if(member_data === false){
         throw message.DETAIL_ERROR('로그인 토큰 정보가 잘못되었습니다. 다시 시도해주세요.');
     }
 
-    let auth_id = member_data.id;
-    let detail_data = member_data.kakao_account;
+    const auth_id = member_data.id;
+    const detail_data = member_data.kakao_account;
 
     let nickname, profile_image, email;
 
@@ -84,11 +84,9 @@ service_auth_kakao.get_member_data = async (token, keep_check, req) => {
     exist_check.keep_check = keep_check;
     member_idx = exist_check.idx;
 
-    let login_token = await member.token(exist_check);
+    const login_token = await member.token(exist_check);
 
-    console.log(data_obj);
-
-    req.organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
+    req.organized_sql = organizer.get_sql(data_obj, Object.keys(data_obj));
 
     await dao_member.update_member(req, member_idx);
 
@@ -96,7 +94,7 @@ service_auth_kakao.get_member_data = async (token, keep_check, req) => {
 };
 
 service_auth_kakao.sign_up = async (req) => {
-    let { nickname, email, auth_data } = req.body;
+    const { nickname, email, auth_data } = req.body;
 
     auth_data.id = 'kakao_' + auth_data.auth_id;
     auth_data.password = await member.encrypt(auth_data.id);
@@ -108,16 +106,16 @@ service_auth_kakao.sign_up = async (req) => {
         let key;
 
         try {
-            let file = {};
+            const file = {};
 
             file.buffer = await utils.file_url_to_buffer(auth_data.profile_image);
             file.originalname = 'dummy' + auth_data.profile_image.substring(auth_data.profile_image.lastIndexOf('.'));
             file.size = file.buffer.length;
 
-            let img = await validator.file_img([file]);
+            const img = validator.file_img([file]);
 
             while(true){
-                key = await utils.create_key(28);
+                key = utils.create_key(28);
                 key = config.files.imgs.profile + key + '.' + img[0].type;
                 if(await dao_member.profile_img_check(key)) break;
             }
@@ -131,10 +129,10 @@ service_auth_kakao.sign_up = async (req) => {
         }
     }
 
-    let organized_sql = await organizer.get_sql(auth_data,
+    const organized_sql = organizer.get_sql(auth_data,
         "id, nickname, password, email, auth_type, auth_id, profile_img_key");
 
-    let sign_up_info = await dao_auth_kakao.sign_up(req, organized_sql);
+    const sign_up_info = await dao_auth_kakao.sign_up(req, organized_sql);
 
     req.member = {
         idx: sign_up_info.insertId
@@ -146,12 +144,13 @@ service_auth_kakao.sign_up = async (req) => {
 };
 
 service_auth_kakao.member_link = async (req, auth_id) => {
-    let { id, password } = req.body;
+    const { id } = req.body;
+    let { password } = req.body;
     password = await member.encrypt(password);
 
-    let member_info = await dao_member.login(id, password);
-    
-    let member_link = await dao_auth_kakao.member_link(req.connector, member_info, auth_id);
+    const member_info = await dao_member.login(id, password);
+
+    const member_link = await dao_auth_kakao.member_link(req.connector, member_info, auth_id);
 
     if(member_link.affectedRows !== 1){
         throw message.SERVER_ERROR;

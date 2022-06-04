@@ -12,20 +12,20 @@ const service_member = require(`service/member/member`);
 const ban_str_list = 'admin, 관리자, test, 테스트';
 
 router.get('/', async (req, res, next) => {
-    let { code } = req.query;
-    let rd_uri = req.headers.scheme + '://' + req.headers.host;
+    const { code } = req.query;
+    const rd_uri = req.headers.scheme + '://' + req.headers.host;
 
-    let access_data = await service_auth_kakao.get_token(code, rd_uri);
+    const access_data = await service_auth_kakao.get_token(code, rd_uri);
 
     res.redirect('/auth/kakao?token=' + access_data.access_token);
 });
 
 router.get('/get_member_data', async (req, res, next) => {
-    let { token, keep_check } = req.query;
+    const { token, keep_check } = req.query;
 
     req.connector = await db.get_connection();
 
-    let member_data = await service_auth_kakao.get_member_data(token, keep_check, req);
+    const member_data = await service_auth_kakao.get_member_data(token, keep_check, req);
 
     delete member_data.auth_id;
 
@@ -41,19 +41,19 @@ router.get('/get_member_data', async (req, res, next) => {
 });
 
 router.post('/sign_up', async (req, res, next) => {
-    let { nickname, email, auth_data } = req.body;
-    await validator.str('nickname, email', req.body);
+    const { nickname, email, auth_data } = req.body;
+    validator.str('nickname, email', req.body);
 
     if(auth_data === undefined || auth_data.token === undefined){
         throw message.WRONG_PARAM('auth_data');
     }
 
-    await validator.ban_str(nickname, ban_str_list);
-    await validator.ban_str(email, ban_str_list);
+    validator.ban_str(nickname, ban_str_list);
+    validator.ban_str(email, ban_str_list);
 
     await service_member.email_dup_check(email);
 
-    let member_data = await service_auth_kakao.get_member_data(auth_data.token);
+    const member_data = await service_auth_kakao.get_member_data(auth_data.token);
 
     if(member_data['x-token'] !== undefined){
         res.json({'x-token' : member_data['x-token']});
@@ -72,11 +72,11 @@ router.post('/sign_up', async (req, res, next) => {
 });
 
 router.post('/member_link', async (req, res, next) => {
-    let { token } = req.body;
+    const { token } = req.body;
 
-    await validator.str('id, password, token', req.body);
+    validator.str('id, password, token', req.body);
 
-    let member_data = await service_auth_kakao.get_member_data(token);
+    const member_data = await service_auth_kakao.get_member_data(token);
 
     if(member_data['x-token'] !== undefined){
         res.json(member_data);

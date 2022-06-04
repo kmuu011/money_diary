@@ -6,7 +6,7 @@ validator.type = {
     img : { reg: /^jpg$|^jpeg$|^gif$|^png$|^bmp$/, msg : 'jpg, jpeg, gif, png, bmp 파일 형식만 업로드 할 수 있습니다.'},
 };
 
-validator.str = async (keys, obj) => {
+validator.str = (keys, obj) => {
     keys = keys.replace(/\s/g, '').split(',');
 
     for(const k of keys){
@@ -24,7 +24,7 @@ validator.str = async (keys, obj) => {
     return true;
 };
 
-validator.int = async (keys, obj) => {
+validator.int = (keys, obj) => {
     keys = keys.replace(/\s/g, '').split(',');
 
     for(const k of keys){
@@ -42,7 +42,7 @@ validator.int = async (keys, obj) => {
     return true;
 };
 
-validator.data = async (keys, obj) => {
+validator.data = (keys, obj) => {
     keys = keys.replace(/\s/g, '').split(',');
 
     for(const k of keys){
@@ -54,7 +54,7 @@ validator.data = async (keys, obj) => {
     return true;
 };
 
-validator.ban_str = async (value, list) => {
+validator.ban_str = (value, list) => {
     list = list.replace(/\s/g, '').split(',');
 
     for(const k of list){
@@ -65,7 +65,7 @@ validator.ban_str = async (value, list) => {
     return true;
 };
 
-validator.file_img = async (files) => {
+validator.file_img = (files) => {
     let file_list = [];
 
     if(files === undefined || files.length === 0){

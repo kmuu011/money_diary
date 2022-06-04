@@ -10,7 +10,7 @@ const db = require(`libs/db`);
 const service_account_history_category = require(`service/account/history/category`);
 
 router.get('/', async (req, res, next) => {
-    let { type } = req.query;
+    const { type } = req.query;
 
     if(type === undefined && type !== 0 && type !== 1){
         throw message.INVALID_PARAM('type');
@@ -20,10 +20,10 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    let { type } = req.body;
+    const { type } = req.body;
 
-    await validator.str('name', req.body);
-    await validator.int('type', req.body);
+    validator.str('name', req.body);
+    validator.int('type', req.body);
 
     req.connector = await db.get_connection();
 
@@ -40,14 +40,14 @@ router.post('/', async (req, res, next) => {
 });
 
 router.use('/:category_idx(\\d+)', (() => {
-    let router = express.Router({
+    const router = express.Router({
         mergeParams: true
     });
 
     router.use(async (req, res, next) => {
-        let { category_idx } = req.params;
+        const { category_idx } = req.params;
 
-        let result = await service_account_history_category.select_one(req.member.idx, category_idx);
+        const result = await service_account_history_category.select_one(req.member.idx, category_idx);
 
         if(result.length !== 1){
             throw message.NOT_EXIST('유형');
@@ -59,7 +59,7 @@ router.use('/:category_idx(\\d+)', (() => {
     });
 
     router.patch('/', async (req, res, next) => {
-        let { name, color } = req.body;
+        const { name, color } = req.body;
 
         if(req.category_info.default === 1 && name !== undefined){
             throw message.CAN_NOT_ACTION_DEFAULT;

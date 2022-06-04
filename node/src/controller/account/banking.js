@@ -17,11 +17,11 @@
 //
 //
 // router.get('/', async (req, res, next) => {
-//     let query = req.query;
-//     let access_token, user_seq_no;
+//     const query = req.query;
+//     const access_token, user_seq_no;
 //     console.log(query);
 //
-//     let data = await banking.check(query.code);
+//     const data = await banking.check(query.code);
 //     access_token = data.access_token;
 //     user_seq_no = data.user_seq_no;
 //

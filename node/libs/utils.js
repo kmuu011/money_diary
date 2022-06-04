@@ -23,7 +23,7 @@ utils.unique_check = async (table_name, key, col) => {
     return dup_check.length === 0;
 };
 
-utils.create_key = async (count, time) => {
+utils.create_key = (count, time) => {
     count = parseInt(count) || 20;
 
     let key = '';
@@ -45,7 +45,7 @@ utils.create_idx = async (table_name, count, col) => {
     let key;
 
     while(true){
-        key = await utils.create_key(count);
+        key = utils.create_key(count);
 
         if(await utils.unique_check(table_name, key, col)) break;
     }
@@ -53,7 +53,7 @@ utils.create_idx = async (table_name, count, col) => {
     return key;
 };
 
-utils.create_color = async () => {
+utils.create_color = () => {
     let color = '';
 
     for (let i=0 ; i<6 ; i++) {
@@ -65,7 +65,7 @@ utils.create_color = async () => {
     return color;
 };
 
-utils.left_padding = async (value, count, str) => {
+utils.left_padding = (value, count, str) => {
     if(value === undefined) return undefined;
 
     return value.toString().padStart(count, str);
@@ -121,7 +121,7 @@ utils.file_url_to_buffer = async (uri) => {
     });
 };
 
-utils.file_arranger = async (files) => {
+utils.file_arranger = (files) => {
     const storage = {};
 
     if(files !== undefined) {
@@ -143,36 +143,36 @@ utils.file_arranger = async (files) => {
     return storage;
 };
 
-utils.object_delete_undefined = async (data_obj) => {
+utils.object_delete_undefined = (data_obj) => {
     for(const k in data_obj){
         if(data_obj[k] === undefined) delete data_obj[k];
     }
 };
 
-let data_arranger = async (data, key) => {
+let data_arranger = (data, key) => {
     if(data[key] === undefined || data[key] === null) return;
 
     if((data[key].constructor === Array && data[key].length !== 0) || data[key].constructor === Object){
-        await utils.arrange_data(data[key]);
+        utils.arrange_data(data[key]);
     }else if(data[key].constructor === String){
         data[key] = data[key].toString().replace(/\?/g, '？');
     }
 };
 
-utils.arrange_data = async (data) => {
+utils.arrange_data = (data) => {
     if(data.constructor === Array && data.length !== 0){
         for(let i=0 ; i<data.length ; i++){
-            await data_arranger(data, i);
+            data_arranger(data, i);
         }
     }else if(data.constructor === Object && Object.keys(data).length !== 0){
         for(const k in data){
             if(!data.hasOwnProperty(k)) continue;
-            await data_arranger(data, k);
+            data_arranger(data, k);
         }
     }
 };
 
-utils.get_date_parser = async (date) => {
+utils.get_date_parser = (date) => {
     const year = date.getFullYear();
     const month = (parseInt(date.getMonth()) + 1).toString().padStart(2, '0');
     const dat = date.getDate().toString().padStart(2, '0');
@@ -191,7 +191,7 @@ utils.sleep = async (second) => {
     });
 };
 
-utils.comma_parser = function(number){
+utils.comma_parser = (number) => {
     number = isNaN(parseInt(number)) === true ? number.toLocaleString() : parseInt(number).toLocaleString();
 
     return number;

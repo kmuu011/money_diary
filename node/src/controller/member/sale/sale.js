@@ -12,9 +12,9 @@ router.use(member.login_check());
 router.use('/keyword', require('./keyword'));
 
 router.post('/mailing_test', async (req, res, next) => {
-    let m = req.member;
+    const member_info = req.member;
 
-    if(m.mailing_test === 0) throw message.DETAIL_ERROR('1분 뒤에 테스트 메일을 다시 발송할 수 있습니다.');
+    if(member_info.mailing_test === 0) throw message.DETAIL_ERROR('1분 뒤에 테스트 메일을 다시 발송할 수 있습니다.');
 
     req.connector = await db.get_connection();
 
@@ -30,7 +30,7 @@ router.post('/mailing_test', async (req, res, next) => {
     html = html.replace(/#PRICE_TYPE/g, '￦');
     html = html.replace(/#PRICE/g, '1,000');
 
-    let result = await nodemailer.send(m.nickname, m.email, '[특가정보] 이메일 확인용 테스트 메일입니다.', html)
+    const result = await nodemailer.send(m.nickname, m.email, '[특가정보] 이메일 확인용 테스트 메일입니다.', html)
 
     if(result === false){
         throw message.DETAIL_ERROR('이메일이 올바르지 않습니다. 다시 확인해주세요.');

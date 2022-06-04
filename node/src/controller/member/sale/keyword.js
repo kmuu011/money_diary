@@ -11,7 +11,7 @@ const service_sale_keyword = require(`service/sale/keyword`);
 const service_member = require(`service/member/member`);
 
 router.get('/', async (req, res, next) => {
-    let rp = {};
+    const rp = {};
 
     rp.items = await service_sale_keyword.select(req);
 
@@ -19,17 +19,17 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    await validator.str('keyword', req.body);
+    validator.str('keyword', req.body);
 
-    let { keyword } = req.body;
+    const { keyword } = req.body;
 
-    let dup_check = await service_sale_keyword.dup_check(req, keyword);
+    const dup_check = await service_sale_keyword.dup_check(req, keyword);
 
     if(dup_check.length !== 0){
         throw message.ALREADY_EXIST('키워드');
     }
 
-    let keyword_list = await service_sale_keyword.select(req);
+    const keyword_list = await service_sale_keyword.select(req);
 
     if(req.member.max_sale_keyword_cnt <= keyword_list.length) {
         throw message.MAX_SALE_KEYWORD(req.member.max_sale_keyword_cnt);
@@ -45,14 +45,14 @@ router.post('/', async (req, res, next) => {
 });
 
 router.use('/:keyword_idx', (() => {
-    let router = express.Router({
+    const router = express.Router({
         mergeParams: true
     });
 
     router.use(async (req, res, next) => {
-        let { keyword_idx } = req.params;
+        const { keyword_idx } = req.params;
 
-        let keyword_info = await service_sale_keyword.select_one(req, keyword_idx);
+        const keyword_info = await service_sale_keyword.select_one(req, keyword_idx);
 
         if(keyword_info.length === 0){
             throw message.NOT_EXIST('키워드');

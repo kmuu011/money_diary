@@ -17,7 +17,7 @@ dao_account_history.select_one = async (history_idx) => {
 };
 
 dao_account_history.select = async (account_idx, page, count, type, year, month, date, category_idx) => {
-    let rp = {};
+    const rp = {};
 
     let sql = "SELECT h.idx, c.idx category_idx, c.name category_name, c.color category_color, h.type, h.amount, h.content " +
         "FROM account_history h, account_history_category c " +
@@ -50,7 +50,7 @@ dao_account_history.select = async (account_idx, page, count, type, year, month,
         "LIMIT ?, ?";
     sql = mysql.format(sql, [ (page-1)*count, count ]);
 
-    let result = await db.query(sql);
+    const result = await db.query(sql);
 
     sql = "SELECT count(*) cnt " +
         "FROM account_history " +
@@ -78,7 +78,7 @@ dao_account_history.select = async (account_idx, page, count, type, year, month,
         sql = mysql.format(sql, [ category_idx ]);
     }
 
-    let result_cnt = await db.query(sql);
+    const result_cnt = await db.query(sql);
 
     rp.items = result;
     rp.total_count = result_cnt[0].cnt;
@@ -87,7 +87,7 @@ dao_account_history.select = async (account_idx, page, count, type, year, month,
 };
 
 dao_account_history.reset_total_amount = async (req) => {
-    let account_idx = req.account_info.idx;
+    const account_idx = req.account_info.idx;
 
     let sql = "UPDATE account SET total_amount = " +
         "(SELECT SUM(IF(type=1, amount, 0)) - SUM(IF(type=0, amount, 0)) total_amount " +
@@ -96,7 +96,7 @@ dao_account_history.reset_total_amount = async (req) => {
         "WHERE idx = ?";
     sql = mysql.format(sql, [ account_idx, account_idx ]);
 
-    let result = await db.run(req.connector, sql);
+    const result = await db.run(req.connector, sql);
 
     if (result.affectedRows !== 1){
         throw message.SERVER_ERROR;
@@ -145,8 +145,8 @@ dao_account_history.select_category_info = async (account_idx, type, year, month
 };
 
 dao_account_history.insert = async (req, organized_sql) => {
-    let { created_at } = req.body;
-    let { sql_col, sql_val } = organized_sql;
+    const { created_at } = req.body;
+    const { sql_col, sql_val } = organized_sql;
 
     let sql = "INSERT INTO account_history (" + sql_col + " created_at, updated_at) " +
         "VALUES(" + sql_val + " ";
@@ -158,7 +158,7 @@ dao_account_history.insert = async (req, organized_sql) => {
         sql = mysql.format(sql, [ created_at ]);
     }
 
-    let result = await db.run(req.connector, sql);
+    const result = await db.run(req.connector, sql);
 
     if(result.affectedRows !== 1){
         throw message.SERVER_ERROR;
@@ -168,14 +168,14 @@ dao_account_history.insert = async (req, organized_sql) => {
 };
 
 dao_account_history.update = async (req, organized_sql) => {
-    let history_Idx = req.history_info.idx;
-    let { sql_set } = organized_sql;
+    const history_Idx = req.history_info.idx;
+    const { sql_set } = organized_sql;
 
     let sql = "UPDATE account_history SET " + sql_set + " updated_at = UNIX_TIMESTAMP() " +
         "WHERE idx = ?";
     sql = mysql.format(sql, [ history_Idx ]);
 
-    let result = await db.query(sql);
+    const result = await db.query(sql);
 
     if (result.affectedRows !== 1){
         throw message.SERVER_ERROR;
@@ -188,7 +188,7 @@ dao_account_history.delete = async (req) => {
     let sql = "DELETE FROM account_history WHERE idx = ?";
     sql = mysql.format(sql, [ req.history_info.idx ]);
 
-    let result = await db.run(req.connector, sql);
+    const result = await db.run(req.connector, sql);
 
     if (result.affectedRows !== 1){
         throw message.SERVER_ERROR;

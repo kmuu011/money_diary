@@ -29,11 +29,11 @@ dao_sale_keyword.dup_check = async (req, keyword) => {
 };
 
 dao_sale_keyword.insert = async (req) => {
-    let { sql_col, sql_val } = req.organized_sql;
+    const { sql_col, sql_val } = req.organized_sql;
 
     let sql = "INSERT INTO sale_keyword (" + sql_col + ") VALUES(" + sql_val + ")";
 
-    let insert_item = await db.run(req.connector, sql);
+    const insert_item = await db.run(req.connector, sql);
 
     if(insert_item.affectedRows !== 1){
         throw message.SERVER_ERROR;
@@ -47,7 +47,7 @@ dao_sale_keyword.delete = async (req, keyword_idx) => {
         "WHERE member_idx = ? AND idx = ?";
     sql = mysql.format(sql, [ req.member.idx, keyword_idx ]);
 
-    let delete_item = await db.run(req.connector, sql);
+    const delete_item = await db.run(req.connector, sql);
 
     if(delete_item.affectedRows !== 1){
         throw message.SERVER_ERROR;

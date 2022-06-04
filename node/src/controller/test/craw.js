@@ -33,7 +33,7 @@ const data_processor = async (data_list) => {
         let organized_sql;
 
         if(dup_check.length === 0){
-            organized_sql = await organizer.get_sql(d, Object.keys(d), undefined, 1);
+            organized_sql = organizer.get_sql(d, Object.keys(d), undefined, 1);
 
             await dao_sale_info.insert(organized_sql);
 
@@ -53,13 +53,13 @@ const data_processor = async (data_list) => {
                 html = html.replace(/#CATEGORY/g, d.category);
                 html = html.replace(/#TARGET_URL/g, d.url);
                 html = html.replace(/#PRICE_TYPE/g, d.price_type);
-                html = html.replace(/#PRICE/g, await utils.comma_parser(d.price));
+                html = html.replace(/#PRICE/g, utils.comma_parser(d.price));
 
                 await nodemailer.send(m.nickname, m.email, '[특가정보] 등록하신 키워드의 할인정보가 올라왔어요!', html);
             }
 
         }else{
-            organized_sql = await organizer.get_sql(d, 'state', undefined, 2);
+            organized_sql = organizer.get_sql(d, 'state', undefined, 2);
 
             await dao_sale_info.update(organized_sql, d.unq_key);
         }
@@ -136,7 +136,7 @@ router.post('/', async (req, res, next) => {
                 }
 
                 if (data_list.length !== 0) {
-                    await utils.arrange_data(data_list);
+                    utils.arrange_data(data_list);
 
                     await data_processor(data_list);
                 }
@@ -168,7 +168,7 @@ router.post('/', async (req, res, next) => {
                     const data_list = [...await data_arranger_for_pp(list0, $), ...await data_arranger_for_pp(list1, $)];
 
                     if (data_list.length !== 0) {
-                        await utils.arrange_data(data_list);
+                        utils.arrange_data(data_list);
                         await data_processor(data_list);
                     }
                 }

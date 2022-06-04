@@ -17,11 +17,11 @@ service_account.insert = async (req) => {
 };
 
 service_account.update = async (req) => {
-    let { account_name, invisible_amount } = req.body;
+    const { account_name, invisible_amount } = req.body;
 
-    let data_obj = {account_name, invisible_amount};
+    const data_obj = {account_name, invisible_amount};
 
-    req.organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj));
+    req.organized_sql = organizer.get_sql(data_obj, Object.keys(data_obj));
 
     return await dao_account.update(req);
 };

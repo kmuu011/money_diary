@@ -15,13 +15,13 @@ dao_auth_kakao.exist_check = async (auth_id) => {
 };
 
 dao_auth_kakao.sign_up = async (req, organized_sql) => {
-    let { sql_col, sql_val } = organized_sql;
+    const { sql_col, sql_val } = organized_sql;
 
     let sql = "INSERT INTO member " +
         "(" + sql_col + " created_at, updated_at) " +
         "VALUES(" + sql_val + " UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
 
-    let sign_up_result = await db.run(req.connector, sql);
+    const sign_up_result = await db.run(req.connector, sql);
 
     if(sign_up_result.affectedRows !== 1){
         throw message.SERVER_ERROR;

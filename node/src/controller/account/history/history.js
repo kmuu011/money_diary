@@ -5,7 +5,7 @@ const message = require(`libs/message`);
 const validator = require(`libs/validator`);
 const db = require(`libs/db`);
 
-let router = express.Router({
+const router = express.Router({
     mergeParams: true
 });
 
@@ -14,14 +14,15 @@ const service_account_history = require(`service/account/history/history`);
 router.use('/category', require('./category'));
 
 router.get('/', async (req, res, next) => {
-    let account = req.account_info;
-    let { page, count, type, year, month, date, category_idx } = req.query;
-    let rp = {};
+    const rp = {};
+    const account = req.account_info;
+    const { type, year, month, date, category_idx } = req.query;
+    let { page, count } = req.query;
 
     page = parseInt(page) || 1;
     count = parseInt(count) || 20;
 
-    let { items, total_count } = await service_account_history.select(account.idx, page, count, type, year, month, date, category_idx);
+    const { items, total_count } = await service_account_history.select(account.idx, page, count, type, year, month, date, category_idx);
 
     rp.items = items;
     rp.page = page;
@@ -33,39 +34,39 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/daily_situation', async (req, res, next) => {
-    let account = req.account_info;
-    let { start, end } = req.query;
+    const account = req.account_info;
+    const { start, end } = req.query;
 
-    let result = await service_account_history.select_daily_situation(account.idx, start, end);
+    const result = await service_account_history.select_daily_situation(account.idx, start, end);
 
     res.json(result);
 });
 
 router.get('/month_situation', async (req, res, next) => {
-    let account = req.account_info;
-    let { year, month } = req.query;
+    const account = req.account_info;
+    const { year, month } = req.query;
 
-    let result = await service_account_history.select_month_situation(account.idx, year, month);
+    const result = await service_account_history.select_month_situation(account.idx, year, month);
 
     res.json(result[0]);
 });
 
 router.get('/chart_setting', async (req, res, next) => {
-    let account = req.account_info;
-    let { type, year, month } = req.query;
+    const account = req.account_info;
+    const { type, year, month } = req.query;
 
-    await validator.data('type, year', req.query);
+    validator.data('type, year', req.query);
 
-    let result = await service_account_history.select_category_info(account.idx, type, year, month);
+    const result = await service_account_history.select_category_info(account.idx, type, year, month);
 
     res.json(result);
 });
 
 router.post('/', async (req, res, next) => {
-    let { type } = req.body;
+    const { type } = req.body;
 
-    await validator.str('content', req.body);
-    await validator.int('amount, type, category', req.body);
+    validator.str('content', req.body);
+    validator.int('amount, type, category', req.body);
 
     if(type !== 0 && type !== 1){
         throw message.WRONG_PARAM('type');
@@ -81,14 +82,14 @@ router.post('/', async (req, res, next) => {
 });
 
 router.use('/:history_idx(\\d+)', (() => {
-    let router = express.Router({
+    const router = express.Router({
         mergeParams: true
     });
 
     router.use(async (req, res, next) => {
-        let { history_idx } = req.params;
+        const { history_idx } = req.params;
 
-        let result = await service_account_history.selectOne(history_idx);
+        const result = await service_account_history.selectOne(history_idx);
 
         if(result.length !== 1){
             throw message.NOT_EXIST('history');
@@ -104,10 +105,10 @@ router.use('/:history_idx(\\d+)', (() => {
     });
 
     router.patch('/', async (req, res, next) => {
-        let { type } = req.body;
+        const { type } = req.body;
 
-        await validator.str('content', req.body);
-        await validator.int('amount, type, category', req.body);
+        validator.str('content', req.body);
+        validator.int('amount, type, category', req.body);
 
         if(type !== 0 && type !== 1){
             throw message.WRONG_PARAM('type');

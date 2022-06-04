@@ -3,7 +3,7 @@ const xss = {};
 const start_script = '<script>';
 const end_script = '</script>';
 
-const script_tag_remover = async (data, is_string, script) => {
+const script_tag_remover = (data, is_string, script) => {
     if(is_string){
         while(data.toString().toLowerCase().indexOf(script) !== -1){
             const start_idx = data.toString().toLowerCase().indexOf(script);
@@ -21,7 +21,7 @@ const script_tag_remover = async (data, is_string, script) => {
     return data;
 };
 
-xss.check = async (data) => {
+xss.check = (data) => {
     if(data === undefined) return;
 
     for (const k in data) {
@@ -33,8 +33,8 @@ xss.check = async (data) => {
 
         let is_string = !(data[k].constructor === Array || data[k].constructor === Object);
 
-        data[k] = await script_tag_remover(data[k], is_string, start_script);
-        data[k] = await script_tag_remover(data[k], is_string, end_script);
+        data[k] = script_tag_remover(data[k], is_string, start_script);
+        data[k] = script_tag_remover(data[k], is_string, end_script);
     }
 };
 

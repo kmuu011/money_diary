@@ -9,8 +9,8 @@ const db = require(`libs/db`);
 const utils = require(`libs/utils`);
 
 const multer = require('multer');
-const memorystorage = multer.memoryStorage();
-const upload = multer({ storage: memorystorage });
+const memory_storage = multer.memoryStorage();
+const upload = multer({ storage: memory_storage });
 
 const service_member = require(`service/member/member`);
 
@@ -23,14 +23,13 @@ router.get('/', member.login_check(), async (req, res, next) => {
 });
 
 router.post('/login', async (req, res, next) => {
-    let { id, password, keep_check } = req.body;
-    let member_info;
+    const { id, password, keep_check } = req.body;
 
-    await validator.str('id, password', req.body);
+    validator.str('id, password', req.body);
 
     req.connector = await db.get_connection();
 
-    member_info = await service_member.login(id, password, keep_check, req);
+    const member_info = await service_member.login(id, password, keep_check, req);
 
     await db.commit(req.connector);
 
@@ -38,12 +37,12 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.post('/sign_up', async (req, res, next) => {
-    let { id, nickname, email } = req.body;
-    await validator.str('id, nickname, password, email', req.body);
+    const { id, nickname, email } = req.body;
+    validator.str('id, nickname, password, email', req.body);
 
-    await validator.ban_str(id, ban_str_list);
-    await validator.ban_str(nickname, ban_str_list);
-    await validator.ban_str(email, ban_str_list);
+    validator.ban_str(id, ban_str_list);
+    validator.ban_str(nickname, ban_str_list);
+    validator.ban_str(email, ban_str_list);
 
     await service_member.id_dup_check(req, id);
     await service_member.nick_dup_check(req, nickname);
@@ -59,11 +58,11 @@ router.post('/sign_up', async (req, res, next) => {
 });
 
 router.patch('/', member.login_check(), async (req, res, next) => {
-    let require_keys = 'email, nickname';
+    const require_keys = 'email, nickname';
 
-    await validator.str(require_keys, req.body);
+    validator.str(require_keys, req.body);
 
-    let { nickname, email, old_password } = req.body;
+    const { nickname, email, old_password } = req.body;
 
     if(req.member.auth_id === null) {
         if (old_password === undefined || old_password.toString().replace(/\s/g, '') === '') {
@@ -73,8 +72,8 @@ router.patch('/', member.login_check(), async (req, res, next) => {
         await service_member.old_pwd_check(req.member.idx, old_password);
     }
 
-    await validator.ban_str(nickname, ban_str_list);
-    await validator.ban_str(email, ban_str_list);
+    validator.ban_str(nickname, ban_str_list);
+    validator.ban_str(email, ban_str_list);
 
     await service_member.nick_dup_check(req, nickname);
     await service_member.email_dup_check(req, email);
@@ -90,10 +89,10 @@ router.patch('/', member.login_check(), async (req, res, next) => {
 
 router.patch('/img', member.login_check(), upload.any(), async (req, res, next) => {
     req.file_keys = [];
-    let { file } = await utils.file_arranger(req.files);
+    let { file } = utils.file_arranger(req.files);
 
     if(file !== undefined) {
-        file = await validator.file_img(file);
+        file = validator.file_img(file);
     }
 
     req.connector = await db.get_connection();
@@ -110,9 +109,9 @@ router.patch('/img', member.login_check(), upload.any(), async (req, res, next) 
 });
 
 router.post('/id_check', async (req, res, next) => {
-    let { id } = req.body;
+    const { id } = req.body;
 
-    await validator.str('id', req.body);
+    validator.str('id', req.body);
 
     try{
         await member.login_checker(req, res);
@@ -124,9 +123,9 @@ router.post('/id_check', async (req, res, next) => {
 });
 
 router.post('/email_check', async (req, res, next) => {
-    let { email } = req.body;
+    const { email } = req.body;
 
-    await validator.str('email', req.body);
+    validator.str('email', req.body);
 
     try{
         await member.login_checker(req, res);
@@ -138,9 +137,9 @@ router.post('/email_check', async (req, res, next) => {
 });
 
 router.post('/nick_check', async (req, res, next) => {
-    let { nickname } = req.body;
+    const { nickname } = req.body;
 
-    await validator.str('nickname', req.body);
+    validator.str('nickname', req.body);
 
     try{
         await member.login_checker(req, res);

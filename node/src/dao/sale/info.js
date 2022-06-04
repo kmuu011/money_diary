@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const db = require(`libs/db`);
 
 dao_sale_info.select = async () => {
-    let sql = "SELECT idx, title, category, price, price_type, url, unq_key " +
+    const sql = "SELECT idx, title, category, price, price_type, url, unq_key " +
         "FROM sale_info " +
         "ORDER BY created_at DESC ";
 
@@ -21,11 +21,11 @@ dao_sale_info.select_one = async (unq_key) => {
 };
 
 dao_sale_info.insert = async (organized_sql) => {
-    let { sql_col, sql_val } = organized_sql;
+    const { sql_col, sql_val } = organized_sql;
 
-    let sql = "INSERT INTO sale_info (" + sql_col + ") VALUES(" + sql_val + ")";
+    const sql = "INSERT INTO sale_info (" + sql_col + ") VALUES(" + sql_val + ")";
 
-    let insert_item = await db.query(sql);
+    const insert_item = await db.query(sql);
 
     if(insert_item.affectedRows !== 1){
         throw message.SERVER_ERROR;
@@ -36,13 +36,13 @@ dao_sale_info.insert = async (organized_sql) => {
 
 
 dao_sale_info.update = async (organized_sql, unq_key) => {
-    let { sql_set } = organized_sql;
+    const { sql_set } = organized_sql;
 
     let sql = "UPDATE sale_info SET " + sql_set + " " +
         "WHERE unq_key = ?";
     sql = mysql.format(sql,  [ unq_key ]);
 
-    let update_item = await db.query(sql);
+    const update_item = await db.query(sql);
 
     if(update_item.affectedRows !== 1){
         throw message.SERVER_ERROR;

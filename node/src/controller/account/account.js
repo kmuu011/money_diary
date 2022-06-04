@@ -12,13 +12,13 @@ const service_account = require(`service/account/account`);
 router.use(member.login_check());
 
 router.get('/', async (req, res, next) => {
-    let result = await service_account.select_list(req.member.idx);
+    const result = await service_account.select_list(req.member.idx);
 
     res.json(result);
 });
 
 router.post('/', async (req, res, next) => {
-    await validator.str('account_name', req.body);
+    validator.str('account_name', req.body);
 
     req.connector = await db.get_connection();
 
@@ -30,14 +30,14 @@ router.post('/', async (req, res, next) => {
 });
 
 router.use('/:account_idx(\\d+)', (() => {
-    let router = express.Router({
+    const router = express.Router({
         mergeParams: true
     });
 
     router.use(async (req, res, next) => {
-        let { account_idx } = req.params;
+        const { account_idx } = req.params;
 
-        let result = await service_account.select_one(account_idx);
+        const result = await service_account.select_one(account_idx);
 
         if(result.length === 0){
             throw message.NOT_EXIST('가계부');
@@ -58,8 +58,8 @@ router.use('/:account_idx(\\d+)', (() => {
     });
 
     router.patch('/', async (req, res, next) => {
-        await validator.str('account_name', req.body);
-        await validator.int('invisible_amount', req.body);
+        validator.str('account_name', req.body);
+        validator.int('invisible_amount', req.body);
 
         req.connector = await db.get_connection();
 

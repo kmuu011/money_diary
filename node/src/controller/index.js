@@ -13,11 +13,11 @@ const apis = [
 ];
 
 router.use(async (req, res, next) => {
-    await xss.check(req.body);
-    await xss.check(req.query);
+    xss.check(req.body);
+    xss.check(req.query);
 
-    await utils.arrange_data(req.body);
-    await utils.arrange_data(req.query);
+    utils.arrange_data(req.body);
+    utils.arrange_data(req.query);
     
     next();
 });

@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-
-let apis = [
+const apis = [
     'kakao'
 ];
 
-for(let api of apis){
+for(const api of apis){
     router.use('/' + api, require('./' + api));
 }
 

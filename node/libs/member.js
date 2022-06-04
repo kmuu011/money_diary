@@ -59,7 +59,8 @@ member.encrypt = async (password) => {
 
 member.token = async (member) => {
     const time = Date.now();
-    let { idx, id, nickname, created_at, keep_check, ip, user_agent } = member;
+    const { idx, id, nickname, created_at, ip, user_agent } = member;
+    let { keep_check } = member;
 
     if(keep_check === 'true') keep_check = true;
 

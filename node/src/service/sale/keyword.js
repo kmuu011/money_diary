@@ -3,7 +3,6 @@ const service_sale_keyword = {};
 const dao_sale_keyword = require(`dao/sale/keyword`);
 
 const organizer = require(`libs/organizer`);
-const utils = require(`libs/utils`);
 
 service_sale_keyword.select = async (req) => {
     return await dao_sale_keyword.select(req);
@@ -18,14 +17,14 @@ service_sale_keyword.dup_check = async (req, keyword) => {
 };
 
 service_sale_keyword.insert = async (req) => {
-    let { keyword } = req.body;
+    const { keyword } = req.body;
 
-    let data_obj = {
+    const data_obj = {
         keyword,
         member_idx: req.member.idx
     };
 
-    req.organized_sql = await organizer.get_sql(data_obj, Object.keys(data_obj), undefined, 0);
+    req.organized_sql = organizer.get_sql(data_obj, Object.keys(data_obj), undefined, 0);
 
     return await dao_sale_keyword.insert(req);
 };
